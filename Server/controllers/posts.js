@@ -1,7 +1,7 @@
-import postMesseges from '../models/postSchema'
+import postMesseges from '../models/postSchema.js'
 
 
-export const getPosts = (req, res) => {
+export const getPosts = async (req, res) => {
   try {
     const postCollection = await postMesseges.find()
     res.status(200).json(postCollection)
@@ -10,7 +10,7 @@ export const getPosts = (req, res) => {
   }
 }
 
-export const createPosts = (req, res) => {
+export const createPosts = async (req, res) => {
   const post = req.body
   const newPost = new postMesseges(post)
   
