@@ -1,14 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { AppBar, Avatar, Button, Toolbar, Typography } from '@material-ui/core'
 import useStyles from './styles';
-import { Link } from 'react-router-dom'
-
+import { Link } from 'react-router-dom' 
+import { useDispatch } from 'react-redux';
 import falcon from "../../images/falcon.jpg"
-
+import { useHistory } from 'react-router-dom';
 
 const Navbar = () => {
-  const user = null
+  const dispatch = useDispatch()
   const classes = useStyles()
+  const history = useHistory()
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
+
+  const logout = () => {
+    dispatch({type: 'LOGOUT'})
+    history.push('/')
+
+    setUser(null)
+  }
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <div className={classes.brandContainer}>
