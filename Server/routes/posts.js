@@ -3,7 +3,7 @@ import {
   getPosts, createPost, getPost, updatePost, deletePost, likePost
 } from "../controllers/posts.js"
 
-import auth from '../middleware/auth'
+import auth from '../middleware/auth.js'
 
 const router = express.Router()
 
