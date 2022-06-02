@@ -8,6 +8,6 @@ export default (state = { authData: null }, action) => {
       return { ...state, authData: null };
 
     default:
-      return posts;
+      return state;
   }
 };
