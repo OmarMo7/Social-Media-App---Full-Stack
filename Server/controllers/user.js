@@ -1,16 +1,13 @@
-import express from 'express';
-import mongoose from 'mongoose';
 import bcrypt from 'bcrypt'
 import User from '../models/user.js';
 import jwt from 'jsonwebtoken'
 
-const router = express.Router();
 
 export const signin = async (req, res) => {
   const { email, password } = req.body
 
   try {
-    const existingUser = User.findOne({ email })
+    const existingUser = await User.findOne({ email })
 
     if (!existingUser) return res.status(404).json({ messege: "This user does not exist!!" })
 
@@ -33,16 +30,17 @@ export const signin = async (req, res) => {
 }
 
 export const signup = async (req, res) => {
+  console.log('req: ' + req.body)
   const { firstName, lastName, email, password, confirmPassword } = req.body
 
   try {
-    const existingUser = User.findOne({ email })
+    const existingUser = await User.findOne({ email })
 
     if (existingUser) return res.status(403).json({ messege: "This email address already exists" })
 
     if (password !== confirmPassword) return res.status(403).json({ messege: "password does not match" })
 
-    const hashedPassword = bcrypt.hash(password, 10)
+    const hashedPassword = await bcrypt.hash(password, 10)
 
     const newUser = await User.create({ name: `${firstName} ${lastName}`, email, password: hashedPassword })
 
