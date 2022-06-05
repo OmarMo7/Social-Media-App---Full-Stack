@@ -2,21 +2,29 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 import Input from './Input';
+import GoogleButton from '../Auth/GoogleButton'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import useStyles from './styles';
+import { useHistory } from 'react-router-dom'
+import { signin, signup } from '../../actions/auth';
+
+const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
 
 const SignUp = () => {
-  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', password: '', confirmPassword: ''
-});
+  const [form, setForm] = useState(initialState);
   const [isSignup, setIsSignup] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory()
   const classes = useStyles();
-
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
 
   const switchMode = () => {
-    setForm();
+    var emailValue = document.getElementsByName('email')[0]
+    console.log(emailValue.value)
+    var passValue = document.getElementsByName('password')[0]
+    console.log(passValue.value)
+    setForm({ ...initialState, email: emailValue.value, password: passValue.value });
     setIsSignup((prevIsSignup) => !prevIsSignup);
     setShowPassword(false);
   };
@@ -24,12 +32,31 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // if (isSignup) {
-    //   dispatch(signup(form, history));
-    // } else {
-    //   dispatch(signin(form, history));
-    // }
+    if (isSignup) {
+      dispatch(signup(form, history));
+    } else {
+      dispatch(signin(form, history));
+    }
   };
+
+  const googleSuccess = async (res) => {
+    const result = res?.profileObject
+    const token = res?.tokenID
+
+    try {
+      dispatch({ type: 'AUTH', payload: { result, token } })
+
+      history.push('/')
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  const googleFailure = async (error) => {
+    console.log(error)
+    console.log("Goolge Sign In was unsuccessful")
+  }
 
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -56,7 +83,12 @@ const SignUp = () => {
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             {isSignup ? 'Sign Up' : 'Sign In'}
           </Button>
-          
+
+          <GoogleButton
+
+          />
+
+
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Button onClick={switchMode}>
@@ -64,6 +96,7 @@ const SignUp = () => {
               </Button>
             </Grid>
           </Grid>
+
         </form>
       </Paper>
     </Container>
