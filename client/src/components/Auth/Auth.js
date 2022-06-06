@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
 import Input from './Input';
 import GoogleButton from '../Auth/GoogleButton'
+import Error from '../Error/Error';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import useStyles from './styles';
 import { useHistory } from 'react-router-dom'
@@ -15,23 +16,22 @@ const SignUp = () => {
   const [isSignup, setIsSignup] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory()
+  const error = useSelector(state => state.auth.error)
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
 
   const switchMode = () => {
     var emailValue = document.getElementsByName('email')[0]
-    console.log(emailValue.value)
     var passValue = document.getElementsByName('password')[0]
-    console.log(passValue.value)
     setForm({ ...initialState, email: emailValue.value, password: passValue.value });
     setIsSignup((prevIsSignup) => !prevIsSignup);
     setShowPassword(false);
   };
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (isSignup) {
       dispatch(signup(form, history));
     } else {
@@ -39,24 +39,24 @@ const SignUp = () => {
     }
   };
 
-  const googleSuccess = async (res) => {
-    const result = res?.profileObject
-    const token = res?.tokenID
+  // const googleSuccess = async (res) => {
+  //   const result = res?.profileObject
+  //   const token = res?.tokenID
 
-    try {
-      dispatch({ type: 'AUTH', payload: { result, token } })
+  //   try {
+  //     dispatch({ type: 'AUTH', payload: { result, token } })
 
-      history.push('/')
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //     history.push('/')
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
 
-  const googleFailure = async (error) => {
-    console.log(error)
-    console.log("Goolge Sign In was unsuccessful")
-  }
+  // const googleFailure = async (error) => {
+  //   console.log(error)
+  //   console.log("Goolge Sign In was unsuccessful")
+  // }
 
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
@@ -80,15 +80,13 @@ const SignUp = () => {
             <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
             {isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" />}
           </Grid>
+          {error.exists ? <Error errorMessege={error.messege} classes={classes} /> : ''}
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             {isSignup ? 'Sign Up' : 'Sign In'}
           </Button>
 
           <GoogleButton
-
           />
-
-
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Button onClick={switchMode}>
