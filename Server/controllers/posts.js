@@ -72,25 +72,24 @@ export const likePost = async (req, res) => {
 
   if (!req.userId) { return res.json({ message: 'User is not authenticated!' }) }
 
-  const index = post.likes.findIndex((id) => { id === String(req.userId) })
+  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
-  if (index === -1) {
+  const post = await PostMessage.findById(id);
+
+  const index = post.likes.find(_id => _id === req.userId)
+
+  if (index === undefined) {
     // like
-    post.likes.push(id)
+    post.likes.push(req.userId)
   }
   else {
     //dislike
     post.likes = post.likes.filter((id) => { id !== String(req.userId) })
   }
 
-
-  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
-
-  const post = await PostMessage.findById(id);
-
   const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
 
-  res.json(updatedPost);
+  res.status(200).json(updatedPost);
 }
 
 
