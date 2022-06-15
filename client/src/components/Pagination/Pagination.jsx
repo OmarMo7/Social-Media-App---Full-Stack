@@ -8,18 +8,16 @@ import useStyles from './styles'
 const Paginate = () => {
   const classes = useStyles()
   return (
-    <div>
-      <Pagination 
-        classes={{ul: classes.ul}}
-        count={5}
-        page={1}
-        variant="outlined"
-        color="primary"
-        renderItem={(item)=>{
-            <PaginationItem {...item} component={Link} to={`/posts?pages=${1}`}/>
-        }}
+    <Pagination
+      classes={{ ul: classes.ul }}
+      count={5}
+      page={1}
+      variant="outlined"
+      color="primary"
+      renderItem={(item) => (<PaginationItem {...item} component={Link} to={`/posts?page=${1}`} />)}
 
-      />
-    </div>
+    />
   )
 }
+
+export default Paginate
