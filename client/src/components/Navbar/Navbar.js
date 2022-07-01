@@ -30,7 +30,6 @@ const Navbar = () => {
 
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
-
     setUser(JSON.parse(localStorage.getItem('profile')));
   }, [location, logout, user?.token]);
 
@@ -48,8 +47,9 @@ const Navbar = () => {
               </Avatar>
               <Typography className={classes.username} variant='h6'>{user.result.name}</Typography>
               <Button className={classes.logout} variant='contained' color='secondary' onClick={logout}>Logout</Button>
-            </div>) : (
+            </div>) : (location.pathname !== "/auth" ?
               <Button component={Link} to='/auth' variant='contained' color='primary'>Sign Up</Button>
+              : <Button component={Link} to='/' variant='contained' color='primary'>See Posts</Button>
             )
         }
       </Toolbar>
