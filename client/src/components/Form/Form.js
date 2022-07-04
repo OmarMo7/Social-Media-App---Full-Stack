@@ -6,12 +6,12 @@ import FileBase from 'react-file-base64';
 import useStyles from './styles';
 import { createPost, updatePost } from '../../actions/posts';
 
-const Form = ({ currentId, setCurrentId }) => {
+const Form = ({ currentId, setCurrentId, userInfo }) => {
   const [postData, setPostData] = useState({ name: '', title: '', message: '', tags: '', selectedFile: '' });
-  const post = useSelector((state) => (currentId ? state.posts.find((message) => message._id === currentId) : null));
+  const post = useSelector((state) => (currentId ? state.posts.posts.find((message) => message._id === currentId) : null));
   const dispatch = useDispatch();
   const classes = useStyles();
-  const user = JSON.parse(localStorage.getItem('profile'))
+  const user = userInfo
 
   useEffect(() => {
     if (post) setPostData(post);
@@ -38,7 +38,7 @@ const Form = ({ currentId, setCurrentId }) => {
     }
   };
 
-  if (!user?.result?.name) {
+  if (!user?.result) {
     return (
       <Paper className={classes.paper}>
         <Typography variant={'h6'} align='center'>
