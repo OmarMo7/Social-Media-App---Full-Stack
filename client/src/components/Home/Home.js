@@ -6,12 +6,12 @@ import { useHistory, useLocation } from 'react-router-dom';
 import ChipInput from 'material-ui-chip-input'
 import { useDispatch } from 'react-redux';
 
-import { getPosts, getPostsBySearch } from '../../actions/posts';
+import { getPostsBySearch } from '../../actions/posts';
 import Paginate from "../Pagination/Pagination.jsx";
 import useStyles from './styles'
 
 const useQuery = () => {
-  return new URLSearchParams(useLocation.search) // Not understood
+  return new URLSearchParams(useLocation().search) // Not understood
 }
 
 
@@ -24,13 +24,10 @@ const Home = () => {
   const classes = useStyles()
   const history = useHistory()
   const page = query.get('page') || 1
-  const searchQuery = query.get('search')
+  const searchQuery = query.get('searchQuery')
   const [search, setSearch] = useState('')
   const [tags, setTags] = useState([]);
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [currentId, dispatch]);
+  const user = JSON.parse(localStorage.getItem("profile"))
 
   const onKey = (e) => {
     if (e.keyCode === 13) {
@@ -38,7 +35,7 @@ const Home = () => {
     }
   }
 
- 
+
 
   const searchPost = () => {
     if (search.trim() || tags) {
@@ -71,20 +68,25 @@ const Home = () => {
                 value={search}
                 onChange={(e) => { setSearch(e.target.value) }}
               />
+              <ChipInput
+                style={{ margin: '10px 0' }}
+                value={tags}
+                onAdd={(chip) => handleAddChip(chip)}
+                onDelete={(chip) => handleDeleteChip(chip)}
+                label="Search Tags"
+                variant="outlined"
+              />
+              <Button onClick={searchPost} className={classes.searchButton} variant="contained" color="primary">Search</Button>
             </AppBar>
-            <ChipInput
-              style={{ margin: '10px 0' }}
-              value={tags}
-              onAdd={(chip) => handleAddChip(chip)}
-              onDelete={(chip) => handleDeleteChip(chip)}
-              label="Search Tags"
-              variant="outlined"
-            />
-            <Button onClick={searchPost} className={classes.searchButton} variant="contained" color="primary">Search</Button>
-            <Form currentId={currentId} setCurrentId={setCurrentId} />
-            <Paper elevation={6}>
-              <Paginate />
-            </Paper>
+            <Form currentId={currentId} setCurrentId={setCurrentId} userInfo={user} />
+            {
+              //not understood: removing the condition changes the shape of component
+            }
+            {(!searchQuery && !tags.length) && (
+              <Paper className={classes.pagination} elevation={6}>
+                <Paginate page={page} />
+              </Paper>
+            )}
           </Grid>
         </Grid>
       </Container>
