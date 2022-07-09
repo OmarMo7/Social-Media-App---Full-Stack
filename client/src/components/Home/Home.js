@@ -25,7 +25,7 @@ const Home = () => {
   const history = useHistory()
   const page = query.get('page') || 1
   const searchQuery = query.get('searchQuery')
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState('none')
   const [tags, setTags] = useState([]);
   const user = JSON.parse(localStorage.getItem("profile"))
 
@@ -65,7 +65,7 @@ const Home = () => {
                 label="Search Posts"
                 fullWidth
                 onKeyDown={onKey}
-                value={search}
+                value={search === 'none' ? '' : search}
                 onChange={(e) => { setSearch(e.target.value) }}
               />
               <ChipInput

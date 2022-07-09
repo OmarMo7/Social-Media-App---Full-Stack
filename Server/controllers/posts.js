@@ -85,9 +85,14 @@ export const getPostsBySearch = async (req, res) => {
   try {
 
     const titlee = new RegExp(searchQuery, "i");
+
+    const allTagsAfterRegex = allTags.map((tag) => {
+      return new RegExp(tag, "i")
+    })
+
     const posts = await PostMessage.find({
       $or: [{ title: { $regex: titlee, $not: { $regex: '\s' } } },
-      { tags: { $regex: '^\s*', $in: allTags } }]
+      { tags: { $in: allTagsAfterRegex } }]
     });
 
     res.json({ data: posts });
