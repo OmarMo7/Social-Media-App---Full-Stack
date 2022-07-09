@@ -3,13 +3,24 @@ import mongoose from 'mongoose';
 
 import PostMessage from '../models/postSchema.js';
 
+import { fixTags } from '../utils.js';
+
 const router = express.Router();
 
-export const getPosts = async (req, res) => {
-  try {
-    const postMessages = await PostMessage.find();
 
-    res.status(200).json(postMessages);
+
+export const getPosts = async (req, res) => {
+
+  const { page } = req.query
+
+  try {
+    const LIMIT = 4;
+    const startIndex = (Number(page) - 1) * LIMIT; // get the starting index of every page
+
+    const total = await PostMessage.countDocuments({});
+    const posts = await PostMessage.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
+
+    res.json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -30,14 +41,15 @@ export const getPost = async (req, res) => {
 export const createPost = async (req, res) => {
   const post = req.body;
 
+
   const newPostMessage = new PostMessage({
     ...post, creator: req.userId,
+    tags: fixTags(req.body.tags),
     createdAt: new Date().toISOString()
   })
 
   try {
     await newPostMessage.save();
-
     res.status(201).json(newPostMessage);
   } catch (error) {
     res.status(409).json({ message: error.message });
@@ -69,13 +81,16 @@ export const deletePost = async (req, res) => {
 
 export const getPostsBySearch = async (req, res) => {
   const { searchQuery, tags } = req.query;
-
+  const allTags = tags.split(',')
   try {
-    const title = new RegExp(searchQuery, "i");
 
-    const posts = await PostMessage.find({ $or: [{ title }, { tags: { $in: tags.split(',') } }] });
+    const titlee = new RegExp(searchQuery, "i");
+    const posts = await PostMessage.find({
+      $or: [{ title: { $regex: titlee, $not: { $regex: '\s' } } },
+      { tags: { $regex: '^\s*', $in: allTags } }]
+    });
 
-    res.json(posts);
+    res.json({ data: posts });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
