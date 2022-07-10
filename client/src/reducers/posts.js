@@ -22,6 +22,14 @@ export default (state = { posts: [], post: '', isLoading: false }, action) => {
       return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
     case "CREATE":
       return { ...state, posts: [...state.posts, action.payload] };
+    case "COMMENT":
+      console.log(action.payload)
+      return {
+        ...state, posts: state.posts.map((post) => {
+          if (post._id === action.payload._id) return action.payload
+          return post
+        })
+      };
     case "UPDATE":
       return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
     case "DELETE":
