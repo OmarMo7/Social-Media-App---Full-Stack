@@ -11,6 +11,7 @@ import PostDetails from "./components/PostDetails/PostDetails";
 const App = () => {
 
   const user = JSON.parse(localStorage.getItem("profile"))
+  console.log(user)
 
   return (
     <BrowserRouter>
@@ -21,7 +22,7 @@ const App = () => {
           <Route component={Home} exact path="/posts" />
           <Route path="/posts/search" component={Home} exact />
           <Route path="/posts/:id" component={PostDetails} exact />
-          <Route component={() => (!user ? <Auth /> : <Redirect to={"/posts"} />)} exact path="/auth" />
+          <Route component={() => (<Auth />)} exact path="/auth" />
         </Switch>
       </Container>
     </BrowserRouter>
