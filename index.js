@@ -24,12 +24,12 @@ app.get('/', (req, res) => {
 })
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.use('/posts', postRoutes)
-app.use('/user', userRoutes)
-
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
+app.use('/posts', postRoutes)
+app.use('/user', userRoutes)
+
 const CONNECTION_URL = process.env.CONNECTION_URL
 const PORT = process.env.PORT || 8000
 
