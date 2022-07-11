@@ -43,9 +43,9 @@ const Navbar = () => {
         {
           user ?
             (<div className={classes.profile}>
-              <Avatar className={classes.purple} alt={user.result.name} src={user.result.imageUrl} > {user.result.name.charAt(0)}
+              <Avatar className={classes.purple} alt={user?.result?.name} src={user?.result?.imageUrl} > {user?.result?.name.charAt(0)}
               </Avatar>
-              <Typography className={classes.username} variant='h6'>{user.result.name}</Typography>
+              <Typography className={classes.username} variant='h6'>{user?.result?.name}</Typography>
               <Button className={classes.logout} variant='contained' color='secondary' onClick={logout}>Logout</Button>
             </div>) : (location.pathname !== "/auth" ?
               <Button component={Link} to='/auth' variant='contained' color='primary'>Sign Up</Button>

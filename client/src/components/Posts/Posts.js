@@ -11,7 +11,7 @@ const Posts = ({ setCurrentId }) => {
   const { posts, isLoading } = useSelector((state) => state.posts);
   const classes = useStyles();
   
-  if (!posts.length && !isLoading){
+  if (!posts?.length && !isLoading){
     return 'You have no posts yet'
   }
   
