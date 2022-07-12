@@ -23,9 +23,9 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.use('/posts', postRoutes)
 app.use('/user', userRoutes)
 
-// app.all('/*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 app.get('/', (req, res) => {
   res.send("APP IS RUNNING")
 })
