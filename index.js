@@ -19,8 +19,8 @@ dotenv.config({ path: '.env' })
 app.use(bodyParser.json({ limit: '30mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
 app.use(cors())
-// app.use(express.static(path.join(__dirname, 'build')));
-app.get('/', (req, res) => {
+app.use(express.static(path.join(__dirname, 'build')));
+app.all('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 app.use('/posts', postRoutes)
