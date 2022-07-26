@@ -24,11 +24,12 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 app.use('/posts', postRoutes, (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.send(path.join(__dirname, 'build', 'index.html'));
 })
 app.use('/user', userRoutes, (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.send(path.join(__dirname, 'build', 'index.html'));
 })
+
 
 
 
