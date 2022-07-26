@@ -23,12 +23,12 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-app.use('/posts', (req, res) => {
+app.use('/posts', postRoutes, (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-}, postRoutes)
-app.use('/user', (req, res) => {
+})
+app.use('/user', userRoutes, (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-}, userRoutes)
+})
 
 
 
