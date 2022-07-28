@@ -7,7 +7,7 @@ import ChipInput from 'material-ui-chip-input'
 import { useDispatch } from 'react-redux';
 
 import { getPostsBySearch } from '../../actions/posts';
-import Paginate from "../Pagination/Pagination.jsx";
+import Paginate from "../Pagination/Pagination";
 import useStyles from './styles'
 
 const useQuery = () => {
@@ -17,7 +17,7 @@ const useQuery = () => {
 
 
 
-const Home = () => {
+const Home = React.memo(() => {
   const [currentId, setCurrentId] = useState(0);
   const dispatch = useDispatch();
   const query = useQuery()
@@ -92,6 +92,6 @@ const Home = () => {
       </Container>
     </Grow>
   )
-}
+})
 
 export default Home
