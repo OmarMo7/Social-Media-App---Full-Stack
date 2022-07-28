@@ -28,6 +28,13 @@ export default makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'space-between',
     width: '400px',
+    [theme.breakpoints.down('sm')]: {
+      width: '300px',
+    },
+    [theme.breakpoints.down('522')]: {
+      display: "inline-block",
+      width: "150px"
+    }
   },
   userName: {
     display: 'flex',
@@ -38,6 +45,9 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
   },
   purple: {
+    [theme.breakpoints.down('522')]: {
+      display: "none"
+    },
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
   },
