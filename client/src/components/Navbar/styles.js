@@ -9,7 +9,7 @@ export default makeStyles((theme) => ({
     justifyContent: 'space-between',
     marginTop: "10px",
     alignItems: 'center',
-    padding: '10px 50px',
+    padding: '10px 10px 10px 10px',
   },
   heading: {
     color: 'rgba(0,183,255, 1)',
@@ -17,7 +17,7 @@ export default makeStyles((theme) => ({
     fontFamily: 'Edu VIC WA NT Beginner, cursive'
   },
   image: {
-    marginLeft: '15px',
+    marginLeft: '5px',
   },
   toolbar: {
     display: 'flex',
