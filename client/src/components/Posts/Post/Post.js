@@ -7,7 +7,7 @@ import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
-
+import { useTheme } from '@mui/material/styles'
 import { likePost, deletePost } from '../../../actions/posts';
 import useStyles from './styles';
 
@@ -16,6 +16,7 @@ const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem('profile'));
   const history = useHistory();
+  const theme = useTheme()
   const [likes, setLikes] = useState(post?.likes)
   const hasLikedPost = likes.find((like) => like === (user?.result?.googleId || user?.result?._id))
   const userId = user?.result.googleId || user?.result?._id
@@ -50,7 +51,7 @@ const Post = ({ post, setCurrentId }) => {
 
 
   return (
-    <Card className={classes.card} raised elevation={6}>
+    <Card className={classes.card} style={{ backgroundColor: theme.palette.card.main }} raised elevation={6} >
       <ButtonBase
         component="span"
         name="test"
@@ -76,7 +77,7 @@ const Post = ({ post, setCurrentId }) => {
             </Button>
           </div>
         )}
-        <div className={classes.details}>
+        <div className={classes.details} >
           <Typography variant="body2" color="textSecondary" component="h2">{post.tags.map((tag) => `#${tag} `)}</Typography>
         </div>
         <Typography className={classes.title} gutterBottom variant="h5" component="h2">{post.title}</Typography>
