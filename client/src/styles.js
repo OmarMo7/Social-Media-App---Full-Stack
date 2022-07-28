@@ -15,4 +15,12 @@ export default makeStyles(() => ({
   image: {
     marginLeft: '15px',
   },
+  height: {
+    minHeight: "100vh",
+    bottom: "0"
+  },
+  darkModeButton: {
+    fontSize: "0.8rem",
+    margin: "20px",
+  }
 }));
