@@ -33,14 +33,14 @@ const PostDetails = () => {
   if (!post) return null
   if (isLoading) {
     return (
-      <div className={classes.isLoading}>
+      <div className={classes.loadingPaper}>
         <CircularProgress size="7em" />
       </div>
     );
   }
 
   const otherPosts = posts.filter(({ _id }) => post._id !== _id)
-
+  document.title = post.title
   // const classs = document.getElementsByClassName('MuiPaper-elevation6')
   // console.log(classs)
 
