@@ -4,25 +4,36 @@ export default makeStyles((theme) => ({
   media: {
     borderRadius: '20px',
     objectFit: 'cover',
-    width: '100%',
-    maxHeight: '600px',
-    width: "400px"
+    width: '70%',
+    left: '140px',
+    position: 'relative',
+    [theme.breakpoints.down('sm')]: {
+      float: 'left',
+      width: "40%",
+    },
+    [theme.breakpoints.up('sm')]: {
+      float: 'left',
+      width: "50%",
+      marginBottom: "20%"
+    },
+  },
+  multilineColor: {
+    color: theme.palette.text.primary
   },
   card: {
     display: 'flex',
     width: '100%',
     [theme.breakpoints.down('sm')]: {
       flexWrap: 'wrap',
-      flexDirection: 'column',
+      flexDirection: 'column-reverse',
     },
   },
   section: {
     borderRadius: '20px',
     margin: '10px',
-    flex: 1,
   },
   imageSection: {
-    marginLeft: '20px',
+    right: '10%',
     [theme.breakpoints.down('sm')]: {
       marginLeft: 0,
     },
@@ -42,12 +53,13 @@ export default makeStyles((theme) => ({
     height: '39vh',
   },
   commentsOuterContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    // display: 'flex',
+    // justifyContent: 'space-between',
   },
   commentsInnerContainer: {
     height: '200px',
     overflowY: 'auto',
     marginRight: '30px',
-  },
+    marginBottom: "10px"
+  }
 }));
