@@ -40,7 +40,7 @@ const Form = ({ currentId, setCurrentId, userInfo }) => {
 
   if (!user?.result) {
     return (
-      <Paper className={classes.paper}>
+      <Paper className={classes.paper} elevation={2}>
         <Typography variant={'h6'} align='center'>
           Please sign up to create posts and beautiful stuff!
         </Typography>

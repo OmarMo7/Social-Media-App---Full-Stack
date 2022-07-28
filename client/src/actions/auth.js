@@ -14,7 +14,6 @@ export const signin = (formData, router) => async (dispatch) => {
 
 export const signup = (formData, router) => async (dispatch) => {
   try {
-    console.log("line 17: " + formData)
     const { data } = await signUp(formData);
 
     dispatch({ type: "AUTH", data });

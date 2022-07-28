@@ -1,5 +1,3 @@
-// import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
-
 import * as api from '../api/index.js';
 
 export const getPost = (id) => async (dispatch) => {
@@ -19,9 +17,7 @@ export const getPosts = (page) => async (dispatch) => {
   dispatch({ type: 'START_LOADING' });
 
   try {
-    const { data: { data, currentPage, numberOfPages } } = await api.fetchPosts(page);
-
-    dispatch({ type: "FETCH_ALL", payload: { data, currentPage, numberOfPages } });
+    const { data: { data, currentPage, numberOfPages } } = await api.fetchPosts(page);    dispatch({ type: "FETCH_ALL", payload: { data, currentPage, numberOfPages } });
     dispatch({ type: 'END_LOADING' });
 
   } catch (error) {
@@ -64,8 +60,6 @@ export const likePost = (id) => async (dispatch) => {
 export const commentPost = (value, id) => async (dispatch) => {
   try {
     const { data } = await api.commentPost(value, id);
-    console.log(data);
-
     dispatch({ type: "COMMENT", payload: data });
     return data.comments
   } catch (error) {
