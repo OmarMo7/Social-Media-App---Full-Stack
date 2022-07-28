@@ -4,7 +4,8 @@ import App from './App'
 import { ColorModeContext } from './App'
 import { brown, grey, deepOrange, blue } from "@material-ui/core/colors";
 import { red } from "@mui/material/colors";
-
+import fakebook_white from "./images/fakebook-white.png"
+import fakebook_blue from "./images/fakebook-blue.png"
 
 const ToggleColorMode = () => {
   const pre_mode = localStorage.getItem("theme") === null ? 'light' : localStorage.getItem("theme")
@@ -37,7 +38,8 @@ const ToggleColorMode = () => {
               background: { default: "#fff", paper: "#fff" },
               buttons: { main: blue[200] },
               appBar: { main: "#fff" },
-              title: { main: 'rgba(0,183,255, 1)' }
+              title: { main: 'rgba(0,183,255, 1)' },
+              images: { appBar: fakebook_blue }
             }
             : {
               // palette values for dark mode
@@ -50,7 +52,8 @@ const ToggleColorMode = () => {
               background: { default: "#121212", paper: "#121212" },
               buttons: { main: grey[200] },
               appBar: { main: grey[500] },
-              title: { main: red[700] }
+              title: { main: red[700] },
+              images: { appBar: fakebook_white }
             }),
         },
       }),
