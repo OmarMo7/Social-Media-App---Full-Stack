@@ -39,7 +39,9 @@ const Navbar = () => {
       <div className={classes.brandContainer} component={Link} to="/" >
         {/* <Typography style={{ color: theme.palette.title.main }}
           className={classes.heading} variant="h3" align="center">Fakebook</Typography> */}
-        <img className={classes.image} src={theme.palette.images.appBar} alt="fakebook" height="60" />
+        <a href="/">
+          <img className={classes.image} src={theme.palette.images.appBar} alt="fakebook" height="60" />
+        </a>
       </div>
       <Toolbar className={classes.toolbar}>
         {
