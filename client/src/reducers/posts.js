@@ -1,5 +1,3 @@
-// import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
-
 export default (state = { posts: [], post: '', isLoading: false }, action) => {
   switch (action.type) {
     case 'START_LOADING':

@@ -5,14 +5,14 @@ import { legacy_createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
 import { reducers } from './reducers';
-import Demo from './Demo';
-// import './index.css';
+import Theme from './Theme';
+import './index.css';
 
 const store = legacy_createStore(reducers, compose(applyMiddleware(thunk)));
 
 ReactDOM.render(
   <Provider store={store}>
-    <Demo />
+    <Theme />
   </Provider>,
   document.getElementById('root'),
 );
