@@ -90,8 +90,8 @@ export const getPostsBySearch = async (req, res) => {
       return new RegExp(tag, "i")
     })
 
-    const search_object = new Object({ title: { $regex: titlee, $not: { $regex: '\s' } } })
-    const tags_object = new Object({ tags: { $in: allTagsAfterRegex, $not: { $regex: '/(?:)/i' } } })
+    const search_object = new Object({ title: { $regex: titlee } })
+    const tags_object = new Object({ tags: { $in: allTagsAfterRegex } })
 
     let result = {}
     if (allTagsAfterRegex[0] == '/(?:)/i') {
