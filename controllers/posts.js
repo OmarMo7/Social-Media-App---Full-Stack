@@ -136,6 +136,35 @@ export const likePost = async (req, res) => {
   res.status(200).json(updatedPost);
 }
 
+export const likeComment = async (req, res) => {
+  const { id } = req.params
+  const { comment_id } = req.params
+
+  try {
+    const post = await PostMessage.findById(id)
+    const commentChanged = post.comments.find(comment => comment.comment_id === comment_id)
+
+    const index = commentChanged.likes.find(_id => _id === req.userId)
+
+    if (index === undefined) {
+      // like
+      commentChanged.likes.push(req.userId)
+      commentChanged.numLikes++
+    }
+    else {
+      //dislike
+      commentChanged.likes = commentChanged.likes.filter((id) => { id !== String(req.userId) })
+      commentChanged.numLikes--
+    }
+
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true })
+
+    res.status(201).json(updatedPost)
+  } catch (error) {
+    console.log(error)
+  }
+
+}
 export const commentPost = async (req, res) => {
   const { id } = req.params
   const { value } = req.body
@@ -153,6 +182,7 @@ export const commentPost = async (req, res) => {
   }
 
 }
+
 
 
 export default router;
