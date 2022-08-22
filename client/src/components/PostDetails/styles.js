@@ -58,6 +58,7 @@ export default makeStyles((theme) => ({
   },
   commentsInnerContainer: {
     height: '200px',
+    // width: '500px',
     overflowY: 'auto',
     marginRight: '30px',
     marginBottom: "10px"

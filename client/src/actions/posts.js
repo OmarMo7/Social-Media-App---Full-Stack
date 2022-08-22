@@ -17,7 +17,7 @@ export const getPosts = (page) => async (dispatch) => {
   dispatch({ type: 'START_LOADING' });
 
   try {
-    const { data: { data, currentPage, numberOfPages } } = await api.fetchPosts(page);    dispatch({ type: "FETCH_ALL", payload: { data, currentPage, numberOfPages } });
+    const { data: { data, currentPage, numberOfPages } } = await api.fetchPosts(page); dispatch({ type: "FETCH_ALL", payload: { data, currentPage, numberOfPages } });
     dispatch({ type: 'END_LOADING' });
 
   } catch (error) {
@@ -56,10 +56,22 @@ export const likePost = (id) => async (dispatch) => {
     console.log(error);
   }
 }
-  ;
-export const commentPost = (value, id) => async (dispatch) => {
+
+export const likeComment = (id, comment_id) => async (dispatch) => {
   try {
-    const { data } = await api.commentPost(value, id);
+    const { data } = await api.likeComment(id, comment_id);
+
+    dispatch({ type: "LIKE_COMMENT", payload: data });
+    return data.comments
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+  ;
+export const commentPost = (whole_comment, id) => async (dispatch) => {
+  try {
+    const { data } = await api.commentPost(whole_comment, id);
     dispatch({ type: "COMMENT", payload: data });
     return data.comments
   } catch (error) {
