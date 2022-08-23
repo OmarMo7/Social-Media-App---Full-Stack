@@ -39,6 +39,7 @@ const ToggleColorMode = () => {
               buttons: { main: blue[200] },
               appBar: { main: "#fff" },
               title: { main: 'rgba(0,183,255, 1)' },
+              modeButton: { main: '#121212' },
               images: { appBar: fakebook_blue },
               card: { main: "#fff" }
             }
@@ -55,6 +56,7 @@ const ToggleColorMode = () => {
               appBar: { main: grey[500] },
               title: { main: red[700] },
               images: { appBar: fakebook_white },
+              modeButton: { main: '#121212' },
               card: { main: grey[400] }
             }),
         },

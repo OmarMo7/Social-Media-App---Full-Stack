@@ -20,7 +20,19 @@ export default makeStyles(() => ({
     bottom: "0"
   },
   darkModeButton: {
-    fontSize: "0.8rem",
+    width: "130px",
+    padding: "5px 10px",
+    borderRadius: "5px",
     margin: "20px",
+    cursor: "pointer",
+    display: "flex",
+    justifyContent: "inherit",
+    fontSize: "0.75rem",
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans- serif',
+    fontWeight: "500",
+    lineHeight: "1.75",
+    letterSpacing: "0.02857em",
+    textTransform: "uppercase",
+    textAlign: "center"
   }
 }));

@@ -1,5 +1,6 @@
 import React from "react"
-import { Button, Container } from '@material-ui/core'
+import { Container, Typography } from '@material-ui/core'
+import { Box } from '@mui/material'
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
@@ -27,14 +28,16 @@ const App = () => {
     <BrowserRouter>
       <Container className={classes.height} style={{ backgroundColor: theme.palette.background.default, color: theme.palette.text.primary }} >
         <Navbar />
-        <Button className={classes.darkModeButton} style={{ backgroundColor: theme.palette.buttons.main }} variant="contained" onClick={colorMode.toggleColorMode}>
-          {theme.palette.mode} mode
-          <IconButton sx={{ ml: 1 }} >
+        <Box className={classes.darkModeButton} style={{ backgroundColor: theme.palette.buttons.main }} variant="contained" onClick={colorMode.toggleColorMode}>
+          <Typography style={{ color: theme.palette.modeButton.main, fontSize: '0.85rem' }}>
+            {theme.palette.mode} mode
+          </Typography>
+          <IconButton sx={{ ml: 2 }} >
             {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
-        </Button>
+        </Box>
         <Switch>
-          <Route render={() => (<Redirect to={"/posts"} />)} exact path="/" />
+          <Route exact path="/" render={() => (<Home />)} />
           <Route render={() => (<Home theme={theme} />)} exact path="/posts" />
           <Route path="/posts/search" render={() => (<Home />)} exact />
           <Route path="/posts/:id" render={() => (<PostDetails />)} exact />
