@@ -24,11 +24,11 @@ const PostDetails = () => {
   }
   useEffect(() => {
     dispatch(getPost(id))
-  }, [id])
+  }, [id, dispatch])
 
   useEffect(() => {
     if (post) dispatch((getPostsBySearch({ search: 'none', tags: post?.tags.join(',') })))
-  }, [post])
+  }, [post, dispatch])
 
   if (!post) return null
   if (isLoading) {
@@ -45,8 +45,8 @@ const PostDetails = () => {
   // console.log(classs)
 
   return (
-    <Container maxWidth="xl">
-      <Paper style={{ padding: '20px', borderRadius: '15px', backgroundColor: theme.palette.background.default }} elevation={6}>
+    <Container maxWidth="xl" >
+      <Paper style={{ padding: '20px', borderRadius: '15px', backgroundColor: theme.palette.background.default, boxShadow: '0px 3px 5px -1px rgba(193, 175, 175, 0.2),0px 6px 10px 0px rgba(255, 255, 255, 0.14),0px 1px 18px 0px rgba(255, 255, 255, 0.12)' }} elevation={6}>
         <div className={classes.card}>
           <div className={classes.section}>
             <Box sx={{ color: theme.palette.text.primary }}>
@@ -76,12 +76,12 @@ const PostDetails = () => {
               <Divider />
               <div className={classes.recommendedPosts}>
                 {otherPosts.map((post) => (
-                  <div style={{ margin: "20px", cursor: "pointer" }} onClick={() => { openPost(post._id) }} key={post._id} >
-                    <Typography gutterBottom variant='h6'>{post.title}</Typography>
-                    <Typography gutterBottom variant='body1'>{post.name}</Typography>
-                    <Typography gutterBottom variant='body1'>{post.message}</Typography>
-                    <Typography gutterBottom variant='h6'><ThumbUpAltOutlined fontSize="small" /> {post.likes.length}</Typography>
-                    <img src={post.selectedFile} width={"100px"} />
+                  <div style={{ margin: "20px", cursor: "pointer" }} onClick={() => { openPost(post?._id) }} key={post?._id} >
+                    <Typography gutterBottom variant='h6'>{post?.title}</Typography>
+                    <Typography gutterBottom variant='body1'>{post?.name}</Typography>
+                    <Typography gutterBottom variant='body1'>{post?.message}</Typography>
+                    <Typography gutterBottom variant='h6'><ThumbUpAltOutlined fontSize="small" /> {post?.likes?.length}</Typography>
+                    <img src={post?.selectedFile} alt="posters" width={"100px"} />
                   </div>
                 ))}
               </div>

@@ -15,6 +15,8 @@ const Navbar = () => {
   const location = useLocation()
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')))
   const theme = useTheme()
+  const token = user?.token;
+
   const logout = useCallback(() => {
     dispatch({ type: 'LOGOUT' })
     history.push('/')
@@ -24,7 +26,6 @@ const Navbar = () => {
 
 
   useEffect(() => {
-    const token = user?.token;
 
     if (token) {
       const decodedToken = decode(token);
@@ -32,7 +33,7 @@ const Navbar = () => {
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
     setUser(JSON.parse(localStorage.getItem('profile')));
-  }, [location, logout, user?.token]);
+  }, [location, logout, token]);
 
   return (
     <AppBar className={classes.appBar} position="static" style={{ backgroundColor: theme.palette.appBar.main, color: theme.palette.text.primary }}>
