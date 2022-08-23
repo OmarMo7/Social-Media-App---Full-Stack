@@ -17,7 +17,8 @@ export const getPosts = (page) => async (dispatch) => {
   dispatch({ type: 'START_LOADING' });
 
   try {
-    const { data: { data, currentPage, numberOfPages } } = await api.fetchPosts(page); dispatch({ type: "FETCH_ALL", payload: { data, currentPage, numberOfPages } });
+    const { data: { data, currentPage, numberOfPages } } = await api.fetchPosts(page);
+    dispatch({ type: "FETCH_ALL", payload: { data, currentPage, numberOfPages } });
     dispatch({ type: 'END_LOADING' });
 
   } catch (error) {
@@ -29,9 +30,9 @@ export const createPost = (post) => async (dispatch, history) => {
   try {
     dispatch({ type: "START_LOADING" });
     const { data } = await api.createPost(post);
-
     dispatch({ type: "CREATE", payload: data });
-    history.push(`/posts/${data._id}`)
+
+    history.push(`/posts`)
   } catch (error) {
     console.log(error);
   }
@@ -68,9 +69,10 @@ export const likeComment = (id, comment_id) => async (dispatch) => {
     console.log(error);
   }
 }
-  ;
+
 export const commentPost = (whole_comment, id) => async (dispatch) => {
   try {
+
     const { data } = await api.commentPost(whole_comment, id);
     dispatch({ type: "COMMENT", payload: data });
     return data.comments
@@ -82,8 +84,18 @@ export const commentPost = (whole_comment, id) => async (dispatch) => {
 export const deletePost = (id) => async (dispatch) => {
   try {
     await api.deletePost(id);
-
     dispatch({ type: "DELETE", payload: id });
+    const { data: { data, currentPage, numberOfPages } } = await api.fetchPosts(1);
+    dispatch({ type: "FETCH_ALL", payload: { data, currentPage, numberOfPages } });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteComment = (post_id, comment_id) => async (dispatch) => {
+  try {
+    await api.deleteComment(post_id, comment_id);
+    dispatch({ type: "DELETE_COMMENT", payload: { post_id, comment_id } });
   } catch (error) {
     console.log(error);
   }

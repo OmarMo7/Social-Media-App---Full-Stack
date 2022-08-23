@@ -20,7 +20,6 @@ const Post = ({ post, setCurrentId }) => {
   const [likes, setLikes] = useState(post?.likes)
   const userId = user?.result.googleId || user?.result?._id
   const hasLikedPost = likes.find((like) => like === userId)
-  console.log(likes)
   const handleLikes = async () => {
     dispatch(likePost(post._id))
     if (hasLikedPost) {

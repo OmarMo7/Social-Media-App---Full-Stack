@@ -1,13 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Typography, TextField, Button } from '@material-ui/core/';
 import { Box } from '@material-ui/core/';
 import { useDispatch } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
-import { commentPost, likeComment, getPost } from '../../actions/posts';
+import { commentPost, likeComment, deleteComment } from '../../actions/posts';
 import { red } from "@mui/material/colors";
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
 import { v4 as uuidv4 } from 'uuid'
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 import useStyles from './styles';
@@ -15,52 +16,57 @@ import useStyles from './styles';
 const CommentSection = ({ post }) => {
 
   const user = JSON.parse(localStorage.getItem('profile'));
+  const userId = user?.result.googleId || user?.result?._id
   const [comment, setComment] = useState({
-    text: '', likes: [], comment_id: uuidv4(), numLikes: 0
+    text: '', likes: [], comment_id: `${uuidv4()}-${Math.floor(Math.random() * 100)}`
+    , numLikes: 0, creator: userId
   });
   const dispatch = useDispatch();
   const [comments, setComments] = useState(post?.comments);
   const classes = useStyles();
   const commentsRef = useRef();
-  const userId = user?.result.googleId || user?.result?._id
   const theme = useTheme()
-  const [commentLikes, setCommentLikes] = useState(comment?.likes)
+  // const [commentLikes, setCommentLikes] = useState(comment?.likes)
 
 
   const handleComment = async () => {
 
     const whole_comment = { ...comment, text: `${user?.result?.name}: ${comment.text}` }
 
-    const newComments = await dispatch(commentPost(whole_comment, post?._id));
-
+    setComments([...comments, whole_comment]);
     setComment({ ...comment, text: '' });
 
-    setComments(newComments);
-
     commentsRef.current.scrollIntoView({ behavior: 'smooth' });
+
+    await dispatch(commentPost(whole_comment, post?._id));
+
   };
   const handleLikesOfComments = async (c) => {
 
-    const newComments = await dispatch(likeComment(post._id, c.comment_id))
     const hasLikedComment = c?.likes?.find((like) => like === userId)
-    console.log(c?.likes?.filter((like) => like === userId))
     if (hasLikedComment) {
-      console.log("before")
-      console.log(comment)
-      setCommentLikes(c?.likes?.filter((like) => like !== userId));
-      setComment((prev) => ({ ...c, text: '', likes: c?.likes?.filter((like) => like !== userId), numLikes: prev.numLikes - 1 }));
-      console.log("after")
-      console.log(comment)
-      setComments(newComments)
+      setComments(comments.map(comment => comment.comment_id === c.comment_id ? { ...comment, likes: c?.likes?.filter((like) => like !== userId) } : comment))
+      setComment((prev) => ({
+        ...c, text: '',
+        numLikes: prev.numLikes - 1
+      }));
     }
     else {
-      setCommentLikes([...c.likes, userId]);
-      setComment((prev) => ({ ...c, text: '', likes: [...c.likes, userId], numLikes: prev.numLikes + 1 }));
-      setComments(newComments)
+      setComments(comments.map(comment => comment.comment_id === c.comment_id ? { ...comment, likes: [...c.likes, userId] } : comment))
+      setComment((prev) => ({
+        ...c, text: '',
+        numLikes: prev.numLikes + 1
+      }));
     }
+    await dispatch(likeComment(post._id, c.comment_id))
 
-    console.log(c)
 
+  }
+
+  const handleDeleteComment = async (c) => {
+    setComments(comments.filter((comment) => comment.comment_id !== c.comment_id))
+    await dispatch(deleteComment(post._id, c.comment_id))
+    console.log("deleted")
   }
 
   const ViewLikes = ({ c }) => {
@@ -79,7 +85,7 @@ const CommentSection = ({ post }) => {
         );
     }
 
-    return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>;
+    return <><ThumbUpAltOutlined fontSize="small" /></>;
   };
 
 
@@ -90,7 +96,6 @@ const CommentSection = ({ post }) => {
         <div className={classes.commentsOuterContainer}>
           <div className={classes.commentsInnerContainer}>
             <Typography gutterBottom variant="h6">Comments</Typography>
-            {console.log(comments)}
             {comments?.map((c, i) => (
               <div key={i}>
                 <Typography key={i} gutterBottom variant="subtitle1">
@@ -99,13 +104,20 @@ const CommentSection = ({ post }) => {
                 <Button size="small" color="primary" onClick={() => { handleLikesOfComments(c) }}>
                   <ViewLikes c={c} />
                 </Button>
+                {(user?.result?.googleId === c?.creator || user?.result?._id === c?.creator) && (
+                  <Button size="small" color="secondary" onClick={() => {
+                    handleDeleteComment(c)
+                  }}>
+                    <DeleteIcon fontSize="small" />
+                  </Button>
+                )}
               </div>
             ))}
             <div ref={commentsRef} />
           </div>
           <div style={{ width: '70%' }}>
             <Typography gutterBottom variant="h6">Write a comment</Typography>
-            <TextField style={{ color: red }} fullWidth minRows={4} variant="outlined" label="Comment" multiline value={comment?.text} onChange={(e) => setComment({ ...comment, text: e.target.value })} />
+            <TextField style={{ color: red }} fullWidth minRows={4} variant="outlined" label="Comment" multiline value={comment?.text} onChange={(e) => setComment({ ...comment, comment_id: `${uuidv4()}-${Math.floor(Math.random() * 100)}`, text: e.target.value })} />
             <br />
             <Button style={{ marginTop: '10px', color: theme.palette.primary.main, backgroundColor: theme.palette.buttons.main }} fullWidth disabled={!comment?.text?.length} color="primary" variant="contained" onClick={handleComment}>
               Comment

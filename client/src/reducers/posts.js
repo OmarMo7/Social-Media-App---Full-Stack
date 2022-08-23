@@ -14,7 +14,6 @@ export default (state = { posts: [], post: '', isLoading: false }, action) => {
     case "FETCH_BY_SEARCH":
       return { ...state, posts: action.payload.data };
     case "FETCH_POST":
-      console.log(state.post)
       return { ...state, post: action.payload };
     case "LIKE":
       return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
@@ -23,7 +22,6 @@ export default (state = { posts: [], post: '', isLoading: false }, action) => {
     case "CREATE":
       return { ...state, posts: [...state.posts, action.payload] };
     case "COMMENT":
-      console.log(action.payload)
       return {
         ...state, posts: state.posts.map((post) => {
           if (post._id === action.payload._id) return action.payload
@@ -34,6 +32,12 @@ export default (state = { posts: [], post: '', isLoading: false }, action) => {
       return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
     case "DELETE":
       return { ...state, posts: state.posts.filter((post) => post._id !== action.payload) };
+    case "DELETE_COMMENT":
+      return {
+        ...state, posts: state.posts.map((post) => (post._id === action.payload.post_id ?
+          post.comments.filter((comment) => comment.comment_id !== action.payload.comment_id)
+          : post))
+      };
     default:
       return state;
   }
