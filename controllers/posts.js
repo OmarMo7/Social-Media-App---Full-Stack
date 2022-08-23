@@ -198,6 +198,30 @@ export const likeComment = async (req, res) => {
   }
 
 }
+export const editComment = async (req, res) => {
+  const { id } = req.params
+  const { comment_id } = req.params
+  const { comment: newComment } = req.body;
+
+
+  try {
+    if (!req.userId) { return res.json({ message: 'User is not authenticated!' }) }
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    const post = await PostMessage.findById(id)
+    post.comments = post.comments.map(comment => comment.comment_id === comment_id ? { ...comment, text: newComment } : comment)
+
+
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true })
+
+    
+
+    res.status(201).json(updatedPost)
+  } catch (error) {
+    console.log(error)
+  }
+
+}
 export const commentPost = async (req, res) => {
   const { id } = req.params
   const { value } = req.body
