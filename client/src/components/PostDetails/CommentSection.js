@@ -101,9 +101,6 @@ const CommentSection = ({ post }) => {
   };
 
 
-
-
-
   return (
     <div>
       <Box sx={{ color: theme.palette.text.primary }}>
@@ -125,15 +122,15 @@ const CommentSection = ({ post }) => {
                           <TextField
                             id="outlined-multiline-flexible"
                             multiline
-                            style={theme.palette.mode === 'dark' && { color: "#32a1ce", backgroundColor: "#fff" }}
+                            style={theme.palette.mode === 'dark' && { color: "#32a1ce" }}
                             value={!newComment ? c?.text?.split(': ')[1] : newComment}
                             onChange={(e) => { setNewComment(e.target.value) }}
                           />
                           <Button onClick={() => { setNewComment(c?.text?.split(': ')[1]); setIsEdit(false) }} style={{ marginLeft: "5px" }}>
-                            <CancelOutlinedIcon />
+                            <CancelOutlinedIcon style={theme.palette.mode === 'dark' && { color: "#32a1ce" }} />
                           </Button>
                           <Button onClick={() => { handleEditComment(c) }} style={{ margin: "1px 5px" }}>
-                            <DoneOutlinedIcon />
+                            <DoneOutlinedIcon style={theme.palette.mode === 'dark' && { color: "#32a1ce" }} />
                           </Button>
                         </div>
                       </Slide>
