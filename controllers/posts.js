@@ -72,11 +72,37 @@ export const updatePost = async (req, res) => {
 export const deletePost = async (req, res) => {
   const { id } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+  try {
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
 
-  await PostMessage.findByIdAndRemove(id);
+    await PostMessage.findByIdAndRemove(id);
 
-  res.json({ message: "Post deleted successfully." });
+    res.json({ message: "Post deleted successfully." });
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+export const deleteComment = async (req, res) => {
+  const { id } = req.params;
+  const { comment_id } = req.params;
+
+
+  try {
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    const post = await PostMessage.findById(id);
+
+    post.comments = post.comments.filter(comment => comment.comment_id !== comment_id)
+
+    const newPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+
+    res.json({ data: newPost.comments });
+
+  } catch (error) {
+    console.log(error)
+  }
+
 }
 
 export const getPostsBySearch = async (req, res) => {
@@ -114,26 +140,30 @@ export const getPostsBySearch = async (req, res) => {
 export const likePost = async (req, res) => {
   const { id } = req.params;
 
-  if (!req.userId) { return res.json({ message: 'User is not authenticated!' }) }
 
-  if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+  try {
+    if (!req.userId) { return res.json({ message: 'User is not authenticated!' }) }
 
-  const post = await PostMessage.findById(id);
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    const post = await PostMessage.findById(id);
 
-  const index = post.likes.find(_id => _id === req.userId)
+    const index = post.likes.find(_id => _id === req.userId)
 
-  if (index === undefined) {
-    // like
-    post.likes.push(req.userId)
+    if (index === undefined) {
+      // like
+      post.likes.push(req.userId)
+    }
+    else {
+      //dislike
+      post.likes = post.likes.filter((id) => { id !== String(req.userId) })
+    }
+
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+
+    res.status(200).json(updatedPost);
+  } catch (error) {
+    console.log(error)
   }
-  else {
-    //dislike
-    post.likes = post.likes.filter((id) => { id !== String(req.userId) })
-  }
-
-  const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
-
-  res.status(200).json(updatedPost);
 }
 
 export const likeComment = async (req, res) => {
@@ -141,6 +171,9 @@ export const likeComment = async (req, res) => {
   const { comment_id } = req.params
 
   try {
+    if (!req.userId) { return res.json({ message: 'User is not authenticated!' }) }
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
     const post = await PostMessage.findById(id)
     const commentChanged = post.comments.find(comment => comment.comment_id === comment_id)
 
