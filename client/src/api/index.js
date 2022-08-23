@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // development baseURL: http://localhost:8000/api
 
-const API = axios.create({ baseURL: 'https://my-fake-book.herokuapp.com' })
+const API = axios.create({ baseURL: 'http://localhost:8000/api' })
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
@@ -18,7 +18,10 @@ export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?search
 export const createPost = (newPost) => API.post('/posts', newPost);
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
 export const commentPost = (value, id) => API.post(`/posts/${id}/commentPost`, { value });
-export const likeComment = (id, comment_id) => API.patch(`/posts/${id}/commentPost/${comment_id}`);
+export const likeComment = (id, comment_id) => API.patch(`/posts/${id}/likeComment/${comment_id}`);
+export const editComment = (id, comment_id, editedComment) => API.patch(`/posts/${id}/editComment/${comment_id}`, editedComment, () => {
+  console.log(editedComment)
+});
 export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost);
 export const deletePost = (id) => API.delete(`/posts/${id}`);
 export const deleteComment = (post_id, comment_id) => API.delete(`/posts/${post_id}/commentPost/${comment_id}`);

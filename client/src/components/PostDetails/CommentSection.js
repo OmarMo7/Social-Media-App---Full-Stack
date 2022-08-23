@@ -3,15 +3,17 @@ import { Typography, TextField, Button } from '@material-ui/core/';
 import { Box } from '@material-ui/core/';
 import { useDispatch } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
-import { commentPost, likeComment, deleteComment } from '../../actions/posts';
-import { red } from "@mui/material/colors";
+import Slide from '@mui/material/Slide';
+import { commentPost, likeComment, deleteComment, editComment } from '../../actions/posts';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
 import { v4 as uuidv4 } from 'uuid'
 import DeleteIcon from '@material-ui/icons/Delete';
-
-
+import EditIcon from '@mui/icons-material/Edit';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import useStyles from './styles';
+import './fieldSet.css'
 
 const CommentSection = ({ post }) => {
 
@@ -23,10 +25,11 @@ const CommentSection = ({ post }) => {
   });
   const dispatch = useDispatch();
   const [comments, setComments] = useState(post?.comments);
+  const [newComment, setNewComment] = useState('')
   const classes = useStyles();
   const commentsRef = useRef();
   const theme = useTheme()
-  // const [commentLikes, setCommentLikes] = useState(comment?.likes)
+  const [isEdit, setIsEdit] = useState(false)
 
 
   const handleComment = async () => {
@@ -69,6 +72,17 @@ const CommentSection = ({ post }) => {
     console.log("deleted")
   }
 
+  const handleEditComment = async (c) => {
+    setComments(comments.map(comment => comment.comment_id === c.comment_id ?
+      {
+        ...comment, text: `${user?.result?.name}: ` + newComment
+      } : comment))
+    setIsEdit(false)
+    await dispatch(editComment(post._id, c.comment_id, {
+      comment: `${user?.result?.name}: ` + newComment
+    }))
+  }
+
   const ViewLikes = ({ c }) => {
 
 
@@ -76,11 +90,9 @@ const CommentSection = ({ post }) => {
       return c?.likes?.find((like) => like === userId)
         ? (
           <>
-            {console.log("1")}
             <ThumbUpAltIcon fontSize="small" />&nbsp;{c?.likes?.length > 2 ? `You and ${c?.likes?.length - 1} others` : `${c?.likes?.length} like${c?.likes?.length > 1 ? 's' : ''}`}</>
         ) : (
           <>
-            {console.log("2")}
             <ThumbUpAltOutlined fontSize="small" />&nbsp;{c?.likes?.length} {c?.likes?.length === 1 ? 'Like' : 'Likes'}</>
         );
     }
@@ -90,26 +102,62 @@ const CommentSection = ({ post }) => {
 
 
 
+
+
   return (
     <div>
       <Box sx={{ color: theme.palette.text.primary }}>
         <div className={classes.commentsOuterContainer}>
           <div className={classes.commentsInnerContainer}>
             <Typography gutterBottom variant="h6">Comments</Typography>
+            <br />
             {comments?.map((c, i) => (
               <div key={i}>
-                <Typography key={i} gutterBottom variant="subtitle1">
-                  <strong>{c?.text?.split(': ')[0]}:</strong>&nbsp;{c?.text?.split(': ')[1]}
-                </Typography>
-                <Button size="small" color="primary" onClick={() => { handleLikesOfComments(c) }}>
-                  <ViewLikes c={c} />
-                </Button>
-                {(user?.result?.googleId === c?.creator || user?.result?._id === c?.creator) && (
-                  <Button size="small" color="secondary" onClick={() => {
-                    handleDeleteComment(c)
-                  }}>
-                    <DeleteIcon fontSize="small" />
-                  </Button>
+                {!isEdit ? (
+                  <Typography key={i} gutterBottom variant="subtitle1">
+                    <strong>{c?.text?.split(': ')[0]}:</strong>&nbsp;{c?.text?.split(': ')[1]}
+                  </Typography>
+                ) :
+                  (
+                    <>
+                      <Slide direction='right' in={isEdit}>
+                        <div>
+                          <TextField
+                            id="outlined-multiline-flexible"
+                            multiline
+                            style={theme.palette.mode === 'dark' && { color: "#32a1ce", backgroundColor: "#fff" }}
+                            value={!newComment ? c?.text?.split(': ')[1] : newComment}
+                            onChange={(e) => { setNewComment(e.target.value) }}
+                          />
+                          <Button onClick={() => { setNewComment(c?.text?.split(': ')[1]); setIsEdit(false) }} style={{ marginLeft: "5px" }}>
+                            <CancelOutlinedIcon />
+                          </Button>
+                          <Button onClick={() => { handleEditComment(c) }} style={{ margin: "1px 5px" }}>
+                            <DoneOutlinedIcon />
+                          </Button>
+                        </div>
+                      </Slide>
+
+                    </>
+                  )}
+                {!isEdit && (
+                  <>
+                    <Button size="small" color="primary" onClick={() => { handleLikesOfComments(c) }}>
+                      <ViewLikes c={c} />
+                    </Button>
+                    <Button size="small" color="primary" onClick={() => { setIsEdit(true) }}>
+                      <EditIcon />
+                    </Button>
+                  </>
+                )}
+                {!isEdit && (
+                  (user?.result?.googleId === c?.creator || user?.result?._id === c?.creator) && (
+                    <Button size="small" color="secondary" onClick={() => {
+                      handleDeleteComment(c)
+                    }}>
+                      <DeleteIcon fontSize="small" />
+                    </Button>
+                  )
                 )}
               </div>
             ))}
@@ -117,7 +165,13 @@ const CommentSection = ({ post }) => {
           </div>
           <div style={{ width: '70%' }}>
             <Typography gutterBottom variant="h6">Write a comment</Typography>
-            <TextField style={{ color: red }} fullWidth minRows={4} variant="outlined" label="Comment" multiline value={comment?.text} onChange={(e) => setComment({ ...comment, comment_id: `${uuidv4()}-${Math.floor(Math.random() * 100)}`, text: e.target.value })} />
+            <TextField fullWidth minRows={4} variant="outlined" label="Comment" multiline
+              value={comment?.text}
+              onChange={(e) => setComment({
+                ...comment,
+                comment_id: `${uuidv4()}-${Math.floor(Math.random() * 100)}`,
+                text: e.target.value
+              })} />
             <br />
             <Button style={{ marginTop: '10px', color: theme.palette.primary.main, backgroundColor: theme.palette.buttons.main }} fullWidth disabled={!comment?.text?.length} color="primary" variant="contained" onClick={handleComment}>
               Comment

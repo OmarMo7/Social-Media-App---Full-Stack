@@ -70,6 +70,20 @@ export const likeComment = (id, comment_id) => async (dispatch) => {
   }
 }
 
+export const editComment = (id, comment_id, editedComment) => async (dispatch) => {
+  try {
+    const { data } = await api.editComment(id, comment_id, editedComment);
+    const newComment = data.comments.filter(comment => comment.comment_id === comment_id)
+    console.log(data)
+    console.log(newComment)
+
+    dispatch({ type: "EDIT_COMMENT", payload: { id, newComment, comment_id } });
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export const commentPost = (whole_comment, id) => async (dispatch) => {
   try {
 

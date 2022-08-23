@@ -19,6 +19,12 @@ export default (state = { posts: [], post: '', isLoading: false }, action) => {
       return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
     case "LIKE_COMMENT":
       return { ...state, posts: state.posts.map((post) => (post._id === action.payload._id ? action.payload : post)) };
+    case "EDIT_COMMENT":
+      return {
+        ...state, posts: state.posts.map((post) => (post._id === action.payload.post_id ?
+          post.comments.map((comment) => comment.comment_id === action.payload.comment_id ? { ...comment, text: action.payload.newComment.text } : comment)
+          : post))
+      };
     case "CREATE":
       return { ...state, posts: [...state.posts, action.payload] };
     case "COMMENT":
