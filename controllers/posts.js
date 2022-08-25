@@ -201,7 +201,7 @@ export const likeComment = async (req, res) => {
 export const editComment = async (req, res) => {
   const { id } = req.params
   const { comment_id } = req.params
-  const { comment: newComment } = req.body;
+  const { newComment } = req.body;
 
 
   try {
@@ -214,7 +214,7 @@ export const editComment = async (req, res) => {
 
     const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true })
 
-    
+
 
     res.status(201).json(updatedPost)
   } catch (error) {
