@@ -14,9 +14,9 @@ export const getPost = (id) => async (dispatch) => {
 };
 
 export const getPosts = (page) => async (dispatch) => {
-  dispatch({ type: 'START_LOADING' });
 
   try {
+    dispatch({ type: 'START_LOADING' });
     const { data: { data, currentPage, numberOfPages } } = await api.fetchPosts(page);
     dispatch({ type: "FETCH_ALL", payload: { data, currentPage, numberOfPages } });
     dispatch({ type: 'END_LOADING' });
@@ -29,9 +29,10 @@ export const getPosts = (page) => async (dispatch) => {
 export const createPost = (post) => async (dispatch, history) => {
   try {
     dispatch({ type: "START_LOADING" });
-    const { data } = await api.createPost(post);
-    dispatch({ type: "CREATE", payload: data });
-
+    const { data: dataCreated } = await api.createPost(post);
+    dispatch({ type: "CREATE", payload: dataCreated });
+    dispatch({ type: 'END_LOADING' });
+    
     history.push(`/posts`)
   } catch (error) {
     console.log(error);
@@ -74,7 +75,7 @@ export const editComment = (id, comment_id, editedComment) => async (dispatch) =
   try {
     const { data } = await api.editComment(id, comment_id, editedComment);
     const newComment = data.comments.filter(comment => comment.comment_id === comment_id)
-    
+
 
     dispatch({ type: "EDIT_COMMENT", payload: { id, newComment, comment_id } });
 
