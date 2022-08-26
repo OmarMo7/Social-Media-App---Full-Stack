@@ -38,8 +38,6 @@ const Navbar = () => {
   return (
     <AppBar className={classes.appBar} position="static" style={{ backgroundColor: theme.palette.appBar.main, color: theme.palette.text.primary }}>
       <div className={classes.brandContainer} component={Link} to="/" >
-        {/* <Typography style={{ color: theme.palette.title.main }}
-          className={classes.heading} variant="h3" align="center">Fakebook</Typography> */}
         <a href="/">
           <img className={classes.image} src={theme.palette.images.appBar} alt="fakebook" height="60" />
         </a>

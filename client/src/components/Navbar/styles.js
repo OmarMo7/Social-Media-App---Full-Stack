@@ -32,8 +32,8 @@ export default makeStyles((theme) => ({
       width: '300px',
     },
     [theme.breakpoints.down('522')]: {
-      display: "inline-block",
-      width: "150px"
+      display: "inline-grid",
+      width: "130px"
     }
   },
   userName: {
@@ -51,4 +51,11 @@ export default makeStyles((theme) => ({
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
   },
+  logout: {
+    [theme.breakpoints.down('522')]: {
+      padding: "5px 10px",
+      fontSize: "12px",
+
+    }
+  }
 }));

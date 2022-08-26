@@ -46,7 +46,7 @@ const PostDetails = () => {
 
   return (
     <Container maxWidth="xl" >
-      <Paper style={{ padding: '20px', borderRadius: '15px', backgroundColor: theme.palette.background.default, boxShadow: '0px 3px 5px -1px rgba(193, 175, 175, 0.2),0px 6px 10px 0px rgba(255, 255, 255, 0.14),0px 1px 18px 0px rgba(255, 255, 255, 0.12)' }} elevation={6}>
+      <Paper style={{ padding: '20px', borderRadius: '15px', backgroundColor: theme.palette.background.default, boxShadow: 'rgba(255, 251, 251, 0.2) 0px 3px 5px -1px, rgba(193, 179, 179, 0.14) 0px 6px 10px 0px, rgba(101, 87, 87, 0.12) 0px 1px 18px 0px' }} elevation={6}>
         <div className={classes.card}>
           <div className={classes.section}>
             <Box sx={{ color: theme.palette.text.primary }}>
@@ -72,7 +72,7 @@ const PostDetails = () => {
               <Typography gutterBottom variant='h5'> You might also like: </Typography>
               <Divider />
               <div className={classes.recommendedPosts}>
-                {otherPosts.map((post) => (
+                {otherPosts?.map((post) => (
                   <div style={{ margin: "20px", cursor: "pointer" }} onClick={() => { openPost(post?._id) }} key={post?._id} >
                     <Typography gutterBottom variant='h6'>{post?.title}</Typography>
                     <Typography gutterBottom variant='body1'>{post?.name}</Typography>
