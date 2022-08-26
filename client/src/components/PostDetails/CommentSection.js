@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Typography, TextField, Button } from '@material-ui/core/';
 import { Box, Divider } from '@material-ui/core/';
 import { useDispatch } from 'react-redux';
+import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Slide from '@mui/material/Slide';
 import { commentPost, likeComment, deleteComment, editComment } from '../../actions/posts';
@@ -23,6 +24,7 @@ const CommentSection = ({ post }) => {
     text: '', likes: [], comment_id: `${uuidv4()}-${Math.floor(Math.random() * 100)}`
     , numLikes: 0, creator: userId, isEdit: false
   });
+  const isMobile = useMediaQuery('(max-width:600px)')
   const dispatch = useDispatch();
   const [comments, setComments] = useState(post?.comments);
   const [newComment, setNewComment] = useState(comment?.text)
@@ -154,22 +156,20 @@ const CommentSection = ({ post }) => {
                   </>
                 )}
                 {(!c.isEdit && userId) && (
-                  <>
-                    <Button size="small" color="primary" onClick={() => { handleLikesOfComments(c) }}>
-                      <ViewLikes c={c} />
-                    </Button>
-                    <Button size="small" color="primary" onClick={() => { handlePressEditButton(c) }}>
-                      <EditIcon />
-                    </Button>
-                  </>
-                )}
-                {(!c.isEdit && userId) && (
                   (user?.result?.googleId === c?.creator || user?.result?._id === c?.creator) && (
-                    <Button size="small" color="secondary" onClick={() => {
-                      handleDeleteComment(c)
-                    }}>
-                      <DeleteIcon fontSize="small" />
-                    </Button>
+                    <>
+                      <Button size="small" color="primary" onClick={() => { handleLikesOfComments(c) }}>
+                        <ViewLikes c={c} />
+                      </Button>
+                      <Button size="small" color="primary" onClick={() => { handlePressEditButton(c) }}>
+                        <EditIcon />
+                      </Button>
+                      <Button size="small" color="secondary" onClick={() => {
+                        handleDeleteComment(c)
+                      }}>
+                        <DeleteIcon fontSize="small" />
+                      </Button>
+                    </>
                   )
                 )}
                 <Divider style={theme.palette.mode === 'light' ? { backgroundColor: 'aliceblue', margin: '10px 0px' } : { backgroundColor: '#bfbfbf', margin: '10px 0px' }} />
@@ -181,7 +181,7 @@ const CommentSection = ({ post }) => {
           <div style={{ width: '70%' }}>
             <Typography gutterBottom variant="h6">Write a comment</Typography>
             <textarea id="comment" name="story"
-              rows="4" cols="33"
+              rows="4" cols={isMobile ? "20" : "33"}
               value={newComment}
               placeholder={"Write a comment"}
               style={theme.palette.mode === 'light' ? { backgroundColor: 'aliceblue' } : { backgroundColor: '#bfbfbf' }}
