@@ -1,3 +1,9 @@
 #comment {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  border-radius: 5px;
+}
+#editComment {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  color: brown;
+  border-radius: 5px;
 }

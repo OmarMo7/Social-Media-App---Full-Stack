@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import Slide from '@mui/material/Slide';
+import Zoom from '@mui/material/Zoom';
 import { commentPost, likeComment, deleteComment, editComment } from '../../actions/posts';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
@@ -15,6 +16,7 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
 import useStyles from './styles';
 import './fieldSet.css'
+import Alert from '@mui/material/Alert';
 
 const CommentSection = ({ post }) => {
 
@@ -22,7 +24,7 @@ const CommentSection = ({ post }) => {
   const userId = user?.result.googleId || user?.result?._id
   const [comment, setComment] = useState({
     text: '', likes: [], comment_id: `${uuidv4()}-${Math.floor(Math.random() * 100)}`
-    , numLikes: 0, creator: userId, isEdit: false
+    , numLikes: 0, creator: userId, isEdit: false, isWarned: false
   });
   const isMobile = useMediaQuery('(max-width:600px)')
   const dispatch = useDispatch();
@@ -67,6 +69,11 @@ const CommentSection = ({ post }) => {
 
 
   }
+
+  const handleClickDeleteButton = async (c) => {
+    setComments(comments.map(comment => comment.comment_id === c.comment_id ? { ...comment, isWarned: true } : comment))
+  }
+
 
   const handleDeleteComment = async (c) => {
     setComments(comments.filter((comment) => comment.comment_id !== c.comment_id))
@@ -137,6 +144,12 @@ const CommentSection = ({ post }) => {
                   <>
                     <Slide direction='right' in={c.isEdit} >
                       <div>
+                        <textarea id="editComment"
+                          rows="2" cols="20"
+                          value={comment ? comment?.text : c?.text?.split(': ')[1]}
+                          style={theme.palette.mode === 'light' ? { backgroundColor: 'aliceblue' } : { backgroundColor: '#bfbfbf' }}
+                          onChange={(e) => { setComment(e.target.value) }}                        >
+                        </textarea>
                         <TextField
                           id="outlined-multiline-flexible"
                           multiline
@@ -156,19 +169,34 @@ const CommentSection = ({ post }) => {
                   </>
                 )}
                 {(!c.isEdit && userId) && (
-                  (user?.result?.googleId === c?.creator || user?.result?._id === c?.creator) && (
+                  (
                     <>
                       <Button size="small" color="primary" onClick={() => { handleLikesOfComments(c) }}>
                         <ViewLikes c={c} />
                       </Button>
+                    </>
+                  ))}
+                {(!c.isEdit && userId) && (
+                  (user?.result?.googleId === c?.creator || user?.result?._id === c?.creator) && (
+                    <>
                       <Button size="small" color="primary" onClick={() => { handlePressEditButton(c) }}>
                         <EditIcon />
                       </Button>
-                      <Button size="small" color="secondary" onClick={() => {
-                        handleDeleteComment(c)
-                      }}>
+                      <Button size="small" color="secondary" onClick={() => { handleClickDeleteButton(c) }}>
                         <DeleteIcon fontSize="small" />
                       </Button>
+                      <Zoom in={c.isWarned} timeout={100} >
+                        <Alert sx={{ width: '80%', height: c.isWarned ? "100px" : "15px", overflowY: "auto" }} severity="warning">Are you sure you want to delete this comment ?
+                          <div style={{ marginTop: "5px" }}>
+                            <Button onClick={() => { setComments(comments.map(comment => comment.comment_id === c.comment_id ? { ...comment, isWarned: false } : comment)) }} style={{ marginLeft: "5px" }}>
+                              <CancelOutlinedIcon style={theme.palette.mode === 'dark' ? { color: "#32a1ce" } : {}} />
+                            </Button>
+                            <Button onClick={() => { handleDeleteComment(c) }} style={{ margin: "1px 5px" }}>
+                              <DoneOutlinedIcon style={theme.palette.mode === 'dark' ? { color: "#32a1ce" } : {}} />
+                            </Button>
+                          </div>
+                        </Alert>
+                      </Zoom>
                     </>
                   )
                 )}
@@ -189,7 +217,7 @@ const CommentSection = ({ post }) => {
             >
             </textarea>
             <br />
-            <Button style={{ marginTop: '10px', color: theme.palette.primary.main, backgroundColor: theme.palette.buttons.main }} fullWidth disabled={!newComment.length} color="primary" variant="contained" onClick={handleComment}>
+            <Button style={{ marginTop: '10px', color: theme.palette.primary.main, backgroundColor: theme.palette.buttons.main, width: "200px" }} fullWidth disabled={!newComment.length} color="primary" variant="contained" onClick={handleComment}>
               Comment
             </Button>
           </div>

@@ -41,8 +41,6 @@ const PostDetails = () => {
 
   const otherPosts = posts.filter(({ _id }) => post._id !== _id)
   document.title = post.title
-  // const classs = document.getElementsByClassName('MuiPaper-elevation6')
-  // console.log(classs)
 
   return (
     <Container maxWidth="xl" >

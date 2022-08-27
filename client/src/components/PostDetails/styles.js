@@ -31,6 +31,7 @@ export default makeStyles((theme) => ({
   section: {
     borderRadius: '20px',
     margin: '10px',
+    width: "100%"
   },
   imageSection: {
     right: '10%',
@@ -58,9 +59,7 @@ export default makeStyles((theme) => ({
   },
   commentsInnerContainer: {
     height: '200px',
-    // width: '500px',
     overflowY: 'auto',
-    marginRight: '30px',
     marginBottom: "10px"
   }
 }));
