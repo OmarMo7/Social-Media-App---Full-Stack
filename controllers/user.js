@@ -9,7 +9,7 @@ export const signin = async (req, res) => {
   try {
     const existingUser = await User.findOne({ email })
 
-    if (!existingUser) return res.status(404).json({ messege: "This user does not exist!!" })
+    if (!existingUser) return res.status(404).json({ messege: "This user does not exis!" })
 
     const match = await bcrypt.compare(password, existingUser.password)
 
@@ -36,7 +36,7 @@ export const signup = async (req, res) => {
   try {
     const existingUser = await User.findOne({ email })
 
-    if (existingUser) return res.status(403).json({ messege: "This email address already exists" })
+    if (existingUser) return res.status(403).json({ messege: "This email address already exists!" })
 
     if (password !== confirmPassword) return res.status(403).json({ messege: "password does not match" })
 
