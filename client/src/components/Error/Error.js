@@ -1,14 +1,20 @@
 import React from 'react'
-import { Paper, Typography } from '@material-ui/core';
+import Alert from '@mui/material/Alert';
 
-const Error = ({ errorMessege, classes }) => {
+
+const Error = ({ errorMessege }) => {
+
+  // if (!errorMessege) {
+  //   return (
+  //     <div className={classes.loadingPaper}>
+  //       <CircularProgress size="1em" />
+  //     </div>
+  //   );
+  // }
+
   return (
-    <div>
-      <Paper className={classes.paper}>
-        <Typography variant={'h6'} align='center'>
-          {errorMessege}
-        </Typography>
-      </Paper>
+    <div style={{ margin: "10px" }}>
+      <Alert severity="error">{errorMessege}</Alert>
     </div>
   )
 }
