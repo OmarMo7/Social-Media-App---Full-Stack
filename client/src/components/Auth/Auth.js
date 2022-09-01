@@ -11,7 +11,7 @@ import { signin, signup } from '../../actions/auth';
 
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: '' };
 
-const SignUp = () => {
+const SignUp = ({ theme }) => {
   const [form, setForm] = useState(initialState);
   const [isSignup, setIsSignup] = useState(false);
   const dispatch = useDispatch();
@@ -19,6 +19,7 @@ const SignUp = () => {
   const error = useSelector(state => state.auth.error)
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
+
   const handleShowPassword = () => setShowPassword(!showPassword);
 
   const switchMode = () => {
@@ -63,7 +64,7 @@ const SignUp = () => {
 
   return (
     <Container component="main" maxWidth="xs">
-      <Paper className={classes.paper} elevation={3}>
+      <Paper className={classes.paper} elevation={3} style={{ backgroundColor: theme.palette.form.main }}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>

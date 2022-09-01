@@ -17,7 +17,7 @@ const useQuery = () => {
 
 
 
-const Home = React.memo(() => {
+const Home = React.memo(({ theme }) => {
   const [currentId, setCurrentId] = useState(0);
   const dispatch = useDispatch();
   const query = useQuery()
@@ -58,7 +58,7 @@ const Home = React.memo(() => {
             <Posts setCurrentId={setCurrentId} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
-            <AppBar className={classes.appBarSearch} position="static" color="inherit">
+            <AppBar className={classes.appBarSearch} position="static" color="inherit" style={{ backgroundColor: theme.palette.form.main }}>
               <TextField
                 name='search'
                 variant="outlined"
@@ -78,12 +78,12 @@ const Home = React.memo(() => {
               />
               <Button onClick={searchPost} className={classes.searchButton} variant="contained" color="primary">Search</Button>
             </AppBar>
-            <Form currentId={currentId} setCurrentId={setCurrentId} userInfo={user} />
+            <Form currentId={currentId} setCurrentId={setCurrentId} userInfo={user} theme={theme} />
             {
               //not understood: removing the condition changes the shape of component
             }
             {(!searchQuery && !tags.length) && (
-              <Paper className={classes.pagination} elevation={6}>
+              <Paper className={classes.pagination} elevation={6} style={{ backgroundColor: theme.palette.form.main }}>
                 <Paginate page={page} />
               </Paper>
             )}

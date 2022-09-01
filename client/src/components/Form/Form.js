@@ -6,8 +6,8 @@ import { useHistory } from 'react-router-dom';
 import useStyles from './styles';
 import { createPost, updatePost } from '../../actions/posts';
 
-const Form = ({ currentId, setCurrentId, userInfo }) => {
-  const [postData, setPostData] = useState({ name: '', title: '', message: '', tags: '', selectedFile: '' });
+const Form = ({ currentId, setCurrentId, userInfo, theme }) => {
+  const [postData, setPostData] = useState({ name: '', title: '', message: '', tags: '', selectedFile: '', isWarned: false });
   const post = useSelector((state) => (currentId ? state.posts.posts.find((message) => message._id === currentId) : null));
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -40,7 +40,7 @@ const Form = ({ currentId, setCurrentId, userInfo }) => {
 
   if (!user?.result) {
     return (
-      <Paper className={classes.paper} elevation={2}>
+      <Paper className={classes.paper} elevation={6} style={{ backgroundColor: theme.palette.form.main }}>
         <Typography variant={'h6'} align='center'>
           Please sign up to create posts and beautiful stuff!
         </Typography>
@@ -49,7 +49,7 @@ const Form = ({ currentId, setCurrentId, userInfo }) => {
   }
 
   return (
-    <Paper className={classes.paper}>
+    <Paper className={classes.paper} elevation={6} style={{ backgroundColor: theme.palette.form.main }}>
       <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
         <Typography variant="h6">{currentId ? `Editing "${post.title}"` : 'Create a Post'}</Typography>
         <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
