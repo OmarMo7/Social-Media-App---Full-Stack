@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Typography, TextField, Button } from '@material-ui/core/';
+import { Typography, Button } from '@material-ui/core/';
 import { Box, Divider } from '@material-ui/core/';
 import { useDispatch } from 'react-redux';
 import { useMediaQuery } from '@mui/material';
@@ -38,7 +38,7 @@ const CommentSection = ({ post }) => {
   const handleComment = async () => {
 
     const whole_comment = { ...comment, text: `${user?.result?.name}: ${newComment}` }
-
+    console.log(whole_comment)
     setComments([...comments, whole_comment]);
     setComment({ ...comment, text: '' });
     setNewComment('');
@@ -150,13 +150,6 @@ const CommentSection = ({ post }) => {
                           style={theme.palette.mode === 'light' ? { backgroundColor: 'aliceblue' } : { backgroundColor: '#bfbfbf' }}
                           onChange={(e) => { setComment(e.target.value) }}                        >
                         </textarea>
-                        <TextField
-                          id="outlined-multiline-flexible"
-                          multiline
-                          style={theme.palette.mode === 'dark' ? { color: "#32a1ce" } : {}}
-                          value={comment ? comment?.text : c?.text?.split(': ')[1]}
-                          onChange={(e) => { setComment(e.target.value) }}
-                        />
                         <Button onClick={() => { handleCancelEdit(c) }} style={{ marginLeft: "5px" }}>
                           <CancelOutlinedIcon style={theme.palette.mode === 'dark' ? { color: "#32a1ce" } : {}} />
                         </Button>
@@ -213,7 +206,7 @@ const CommentSection = ({ post }) => {
               value={newComment}
               placeholder={"Write a comment"}
               style={theme.palette.mode === 'light' ? { backgroundColor: 'aliceblue' } : { backgroundColor: '#bfbfbf' }}
-              onChange={(e) => setNewComment(e.target.value)}
+              onChange={(e) => { setNewComment(e.target.value); setComment({ ...comment, comment_id: `${uuidv4()}-${Math.floor(Math.random() * 100)}` }) }}
             >
             </textarea>
             <br />
