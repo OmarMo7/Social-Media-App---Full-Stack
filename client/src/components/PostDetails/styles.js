@@ -4,17 +4,16 @@ export default makeStyles((theme) => ({
   media: {
     borderRadius: '20px',
     objectFit: 'cover',
-    width: '70%',
-    left: '140px',
-    position: 'relative',
+    width: '100%',
+    marginBottom: "10%",
     [theme.breakpoints.down('sm')]: {
-      float: 'left',
-      width: "40%",
+      width: "80%",
     },
     [theme.breakpoints.up('sm')]: {
-      float: 'left',
-      width: "50%",
-      marginBottom: "20%"
+      width: "70%",
+    },
+    [theme.breakpoints.up('md')]: {
+      width: "90%",
     },
   },
   multilineColor: {
@@ -33,12 +32,6 @@ export default makeStyles((theme) => ({
     margin: '10px',
     width: "100%"
   },
-  imageSection: {
-    right: '10%',
-    [theme.breakpoints.down('sm')]: {
-      marginLeft: 0,
-    },
-  },
   recommendedPosts: {
     display: 'flex',
     [theme.breakpoints.down('sm')]: {
@@ -52,10 +45,6 @@ export default makeStyles((theme) => ({
     padding: '20px',
     borderRadius: '15px',
     height: '39vh',
-  },
-  commentsOuterContainer: {
-    // display: 'flex',
-    // justifyContent: 'space-between',
   },
   commentsInnerContainer: {
     height: '200px',
