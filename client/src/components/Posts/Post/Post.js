@@ -9,6 +9,10 @@ import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles'
 import { likePost, deletePost } from '../../../actions/posts';
+import Zoom from '@mui/material/Zoom';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
+import Alert from '@mui/material/Alert';
 import useStyles from './styles';
 
 const Post = ({ post, setCurrentId }) => {
@@ -18,6 +22,7 @@ const Post = ({ post, setCurrentId }) => {
   const history = useHistory();
   const theme = useTheme()
   const [likes, setLikes] = useState(post?.likes)
+  const [postWarnings, setPostWarnings] = useState({ post_id: post._id, isWarned: false })
   const userId = user?.result.googleId || user?.result?._id
   const hasLikedPost = likes.find((like) => like === userId)
   const handleLikes = async () => {
@@ -90,12 +95,26 @@ const Post = ({ post, setCurrentId }) => {
           <Likes />
         </Button>
         {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
-          <Button size="small" color="secondary" onClick={() => dispatch(deletePost(post._id))}>
+          <Button size="small" color="secondary" onClick={() => setPostWarnings({ post_id: post._id, isWarned: true })}>
             <DeleteIcon fontSize="small" /> &nbsp; Delete
           </Button>
         )}
       </CardActions>
-    </Card>
+      {postWarnings.isWarned && (
+        <Zoom in={postWarnings.isWarned} timeout={100} >
+          <Alert sx={{ display: "flex", height: postWarnings.isWarned ? "100px" : "0px" }} severity="warning">Are you sure you want to delete this comment ?
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Button onClick={() => { setPostWarnings({ ...postWarnings, isWarned: false }) }} style={{ marginLeft: "5px" }}>
+                <CancelOutlinedIcon style={theme.palette.mode === 'dark' ? { color: "#32a1ce" } : {}} />
+              </Button>
+              <Button onClick={() => { dispatch(deletePost(postWarnings.post_id)) }} style={{ margin: "1px 5px" }}>
+                <DoneOutlinedIcon style={theme.palette.mode === 'dark' ? { color: "#32a1ce" } : {}} />
+              </Button>
+            </div>
+          </Alert>
+        </Zoom>
+      )}
+    </Card >
   );
 };
 
