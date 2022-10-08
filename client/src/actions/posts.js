@@ -32,7 +32,7 @@ export const createPost = (post) => async (dispatch, history) => {
     const { data: dataCreated } = await api.createPost(post);
     dispatch({ type: "CREATE", payload: dataCreated });
     dispatch({ type: 'END_LOADING' });
-    
+
     history.push(`/posts`)
   } catch (error) {
     console.log(error);
@@ -110,6 +110,14 @@ export const deleteComment = (post_id, comment_id) => async (dispatch) => {
   try {
     await api.deleteComment(post_id, comment_id);
     dispatch({ type: "DELETE_COMMENT", payload: { post_id, comment_id } });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const warnDeletion = (post_id) => (dispatch) => {
+  try {
+    dispatch({ type: "WARN_POST_DELETION", payload: { post_id } });
   } catch (error) {
     console.log(error);
   }
