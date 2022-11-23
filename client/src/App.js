@@ -37,11 +37,11 @@ const App = () => {
           </IconButton>
         </Box>
         <Switch>
-          <Route exact path="/" render={() => (<Home />)} />
+          <Route exact path="/" render={() => (<Home theme={theme} />)} />
           <Route render={() => (<Home theme={theme} />)} exact path="/posts" />
-          <Route path="/posts/search" render={() => (<Home />)} exact />
+          <Route path="/posts/search" render={() => (<Home theme={theme} />)} exact />
           <Route path="/posts/:id" render={() => (<PostDetails />)} exact />
-          <Route render={() => (<Auth />)} exact path="/auth" />
+          <Route render={() => (<Auth theme={theme} />)} exact path="/auth" />
         </Switch>
       </Container>
     </BrowserRouter>
