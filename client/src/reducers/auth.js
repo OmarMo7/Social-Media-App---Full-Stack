@@ -6,7 +6,9 @@ export default (state = { authData: null, error: { exists: false, messege: '' } 
     case "LOGOUT":
       localStorage.clear()
       return { ...state, authData: null };
-    case "error":
+    case "ERROR_SIGN_UP":
+      return { ...state, error: {exists: true, messege: action?.payload} }
+    case "ERROR_SIGN_IN":
       return { ...state, error: {exists: true, messege: action?.payload} }
     default:
       return state;
