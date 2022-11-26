@@ -44,6 +44,9 @@ export default (state = { posts: [], post: '', isLoading: false }, action) => {
           post.comments.filter((comment) => comment.comment_id !== action.payload.comment_id)
           : post))
       };
+    case "WARN_POST_DELETION":
+      console.log(action.payload.post_id)
+      return { ...state, posts: state.posts.map((post) => (post._id === action.payload.post_id ? { ...post, isWarned: true } : post)) }
     default:
       return state;
   }
