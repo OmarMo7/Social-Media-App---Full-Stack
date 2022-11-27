@@ -41,7 +41,8 @@ const ToggleColorMode = () => {
               title: { main: 'rgba(0,183,255, 1)' },
               modeButton: { main: '#121212' },
               images: { appBar: fakebook_blue },
-              card: { main: "#fff" }
+              card: { main: "#fff" },
+              form: { main: "#fff" }
             }
             : {
               // palette values for dark mode
@@ -57,7 +58,8 @@ const ToggleColorMode = () => {
               title: { main: red[700] },
               images: { appBar: fakebook_white },
               modeButton: { main: '#121212' },
-              card: { main: grey[400] }
+              card: { main: grey[400] },
+              form: { main: grey[300] }
             }),
         },
       }),
