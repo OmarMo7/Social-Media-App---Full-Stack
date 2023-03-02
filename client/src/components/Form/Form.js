@@ -28,7 +28,7 @@ const Form = ({ currentId, setCurrentId, userInfo, theme }) => {
     if (currentId === 0) {
       dispatch(createPost({
         ...postData, name: user?.result?.name
-      }), history);
+      }, history));
       clear();
     } else {
       dispatch(updatePost(currentId, {
