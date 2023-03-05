@@ -19,7 +19,7 @@ dotenv.config({ path: '.env' })
 app.use(bodyParser.json({ limit: '30mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
 app.use(cors())
-app.use(express.static(path.join(__dirname, 'client', 'build')));
+// app.use(express.static(path.join(__dirname, 'client', 'build')));
 // app.use('/api/posts', postRoutes)
 app.use('/api/user', userRoutes)
 app.get('*', (req, res) => {
