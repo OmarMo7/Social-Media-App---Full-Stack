@@ -22,9 +22,9 @@ app.use(cors())
 // app.use(express.static(path.join(__dirname, 'client', 'build')));
 // app.use('/api/posts', postRoutes)
 app.use('/api/user', userRoutes)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+// });
 
 
 
