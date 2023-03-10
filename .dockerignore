@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+client/node_modules
+videos
+.gitignore
+.gitkeep
+.Procfile
+dev DB.txt
+.env
