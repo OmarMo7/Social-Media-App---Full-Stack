@@ -1,8 +1,9 @@
 import axios from 'axios'
 
 // development baseURL: http://localhost:8000/api
+// Production baseURL: https://my-fake-book.herokuapp.com/api
 
-const API = axios.create({ baseURL: 'https://my-fake-book.herokuapp.com/api' })
+const API = axios.create({ baseURL: 'http://localhost:8000/api' })
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
