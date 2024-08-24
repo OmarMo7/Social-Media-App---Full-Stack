@@ -1,41 +1,42 @@
-# fly.toml file generated for my-fake-book on 2023-03-10T22:09:59+02:00
+# fly.toml - Customized configuration
 
+# Application name (used to create the default hostname)
 app = "my-fake-book"
-kill_signal = "SIGINT"
-kill_timeout = 5
+
+# Primary region for deployment (replace 'cdg' with your desired Fly Region code)
 primary_region = "cdg"
-processes = []
 
-[build]
-  image = "omarmadara7/social-media-app"
+# Processes configuration
+[[processes]]
+  type = "web"
+  command = "npm start"  # Adjust based on your client app setup
+  dir = "client"  # Directory where your client source code resides
 
+[[processes]]
+  type = "background"
+  command = "node server.js"  # Adjust based on your server setup
+  dir = "server"  # Directory where your server source code resides
+
+# Ports configuration (optional)
+# You can customize ports as needed for your app and database
+
+# Environment variables (optional)
 [env]
+PORT = "8080"
+MONGO_URI = "mongodb+srv://OmarMostafa:ooooooo7@cluster0.ebavy.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
-[experimental]
-  auto_rollback = true
+# Experimental settings (optional)
+auto_rollback = true  # Enable auto-rollback on failed deploys
 
+# Services configuration (optional)
 [[services]]
-  http_checks = []
   internal_port = 8080
-  processes = ["app"]
   protocol = "tcp"
-  script_checks = []
-  [services.concurrency]
-    hard_limit = 25
-    soft_limit = 20
-    type = "connections"
-
-  [[services.ports]]
-    force_https = true
-    handlers = ["http"]
+  [services.ports]
     port = 80
+    handlers = ["http"]
 
-  [[services.ports]]
-    handlers = ["tls", "http"]
-    port = 443
-
-  [[services.tcp_checks]]
-    grace_period = "1s"
-    interval = "15s"
-    restart_limit = 0
-    timeout = "2s"
+# Secrets (optional)
+# Add secrets using 'flyctl secrets set' command.
+# Example:
+# flyctl secrets set MONGO_PASSWORD=mysecretpassword

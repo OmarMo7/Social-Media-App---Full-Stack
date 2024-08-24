@@ -3,14 +3,13 @@ import axios from 'axios'
 // development baseURL: http://localhost:8000/api
 // Production baseURL: https://my-fake-book.herokuapp.com/api
 
-const API = axios.create({ baseURL: 'http://localhost:8000/api' })
+const API = axios.create({ baseURL: 'http://localhost:8080/api' })
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem('profile')) {
     req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`
   }
   return req
-
 })
 
 export const fetchPosts = (page) => API.get(`/posts?page=${page}`);

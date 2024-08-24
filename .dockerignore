@@ -1,9 +1,10 @@
-node_modules
+server/node_modules
 npm-debug.log
 client/node_modules
 videos
-.gitignore
-.gitkeep
+server/.gitignore
+server/.gitkeep
 .Procfile
 dev DB.txt
 .env
+.git
