@@ -1,4 +1,4 @@
-# MERN Stack Project
+# Social Media App (MERN Stack Project)
 
 ## Description
 
