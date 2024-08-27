@@ -1,0 +1,8 @@
+Notes.txt
+fly.toml
+Dockerfile
+.dockerignore
+client/build
+client/node_modules
+server/node_modules
+videos
