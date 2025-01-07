@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 data
 Dockerfile
 fly.toml
@@ -9,13 +8,3 @@ videos
 .env
 .client/node_modules
 .server/node_modules
-=======
-Notes.txt
-fly.toml
-Dockerfile
-.dockerignore
-client/build
-client/node_modules
-server/node_modules
-videos
->>>>>>> f6bdbc541c90b01a438e99e4ed62bb92f5efab73

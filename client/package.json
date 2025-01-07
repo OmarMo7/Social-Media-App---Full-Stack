@@ -1,40 +1,32 @@
 {
-  "name": "mern-stack-client",
+  "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://my-fakebook-server.fly.dev/api",
   "dependencies": {
-    "@emotion/react": "^11.13.0",
-    "@emotion/styled": "^11.13.0",
-    "@mui/icons-material": "^5.11.11",
-    "@mui/lab": "^5.0.0-alpha.61",
-    "@mui/material": "^5.11.11",
-    "@mui/styles": "^5.16.7",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.3.1",
+    "@mui/lab": "^6.0.0-beta.22",
+    "@mui/material": "^6.3.1",
+    "@mui/styles": "^6.3.1",
     "@react-oauth/google": "^0.12.1",
-    "@sanity/client": "^6.21.1",
-    "@sanity/image-url": "^1.0.2",
-    "axios": "^1.2.5",
-    "crypto": "npm:crypto-browserify",
-    "crypto-browserify": "^3.12.0",
-    "crypto-js": "^3.1.9-1",
-    "jwt-decode": "^3.1.2",
-    "moment": "^2.29.4",
-    "node-polyfill-webpack-plugin": "^4.0.0",
-    "os": "^0.1.2",
-    "os-browserify": "^0.3.0",
-    "path": "npm:path-browserify",
-    "path-browserify": "^1.0.1",
-    "process": "^0.11.10",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.2",
+    "@reduxjs/toolkit": "^2.5.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "axios": "^1.7.9",
+    "cra-template": "1.2.0",
+    "jwt-decode": "^4.0.0",
+    "moment": "^2.30.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-file-base64": "^1.0.3",
-    "react-redux": "^8.1.1",
-    "react-router-dom": "^5.3.4",
-    "react-scripts": "5.0.1",
-    "redux": "^4.2.1",
-    "redux-thunk": "^2.4.2",
-    "stream": "^0.0.3",
-    "uuid": "^9.0.0"
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.1.1",
+    "react-scripts": "^5.0.1",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
+    "uuid": "^11.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -43,7 +35,10 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -56,13 +51,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/uuid": "^9.0.1",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0"
   }
 }

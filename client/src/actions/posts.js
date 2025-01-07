@@ -27,14 +27,14 @@ export const getPosts = (page) => async (dispatch) => {
   }
 };
 
-export const createPost = (post) => async (dispatch, history) => {
+export const createPost = (post) => async (dispatch, navigate) => {
   try {
     dispatch({ type: "START_LOADING" });
     const { data: dataCreated } = await api.createPost(post);
     dispatch({ type: "CREATE", payload: dataCreated });
     dispatch({ type: 'END_LOADING' });
 
-    history.push(`/posts`)
+    navigate(`/posts`)
   } catch (error) {
     console.log(error);
   }
