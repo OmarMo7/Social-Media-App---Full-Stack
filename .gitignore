@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+data
+Dockerfile
+fly.toml
+dev DB.txt
+docker-compose.yml
+.dockerignore
+videos
+.env
+.client/node_modules
+.server/node_modules
+=======
 Notes.txt
 fly.toml
 Dockerfile
@@ -6,3 +18,4 @@ client/build
 client/node_modules
 server/node_modules
 videos
+>>>>>>> f6bdbc541c90b01a438e99e4ed62bb92f5efab73
