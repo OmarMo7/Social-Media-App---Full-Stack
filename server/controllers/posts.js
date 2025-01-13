@@ -107,35 +107,36 @@ export const deleteComment = async (req, res) => {
 
 export const getPostsBySearch = async (req, res) => {
   const { searchQuery, tags } = req.query;
-  const allTags = tags.split(',')
+  const allTags = tags.split(',');
+
   try {
+    const titleRegex = new RegExp(searchQuery, "i");
 
-    const titlee = new RegExp(searchQuery, "i");
+    const allTagsAfterRegex = allTags.map(tag => new RegExp(tag, "i"));
 
-    const allTagsAfterRegex = allTags.map((tag) => {
-      return new RegExp(tag, "i")
-    })
+    const searchObject = { title: { $regex: titleRegex } };
+    const tagsObject = { tags: { $in: allTagsAfterRegex } };
 
-    const search_object = new Object({ title: { $regex: titlee } })
-    const tags_object = new Object({ tags: { $in: allTagsAfterRegex } })
+    let searchCriteria = {};
 
-    let result = {}
-    if (allTagsAfterRegex[0] == '/(?:)/i') {
-      result = [search_object]
+    if (!searchQuery.trim() && !tags.length) {
+      searchCriteria = {};
+    } else if (!searchQuery.trim()) {
+      searchCriteria = { tags: { $in: allTagsAfterRegex } };
+    } else if (!tags.length) {
+      searchCriteria = { title: { $regex: titleRegex } };
+    } else {
+      searchCriteria = { $or: [searchObject, tagsObject] };
     }
-    else {
-      result = [search_object, tags_object]
-    }
 
-    const posts = await PostMessage.find({
-      $or: result
-    });
+    const posts = await PostMessage.find(searchCriteria);
 
     res.json({ data: posts });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
-}
+};
+
 
 export const likePost = async (req, res) => {
   const { id } = req.params;

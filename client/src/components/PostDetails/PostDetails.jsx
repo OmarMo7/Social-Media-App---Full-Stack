@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Paper, Typography, CircularProgress, Divider, Container } from '@mui/material'
+import { Paper, Typography, Chip, CircularProgress, Divider, Container } from '@mui/material'
 import ThumbUpAltOutlined from '@mui/icons-material/ThumbUpAltOutlined';
 import { useTheme } from '@mui/styles';
 import { useDispatch, useSelector } from 'react-redux'
@@ -49,7 +49,11 @@ const PostDetails = () => {
           <div className={classes.section}>
             <Box sx={{ color: theme.palette.text.primary }}>
               <Typography variant="h3" component="h2" >{post.title}</Typography>
-              <Typography gutterBottom variant="h6" color={"primary"} component="h2">{post.tags.map((tag) => `#${tag} `)}</Typography>
+              <div className={classes.details}>
+        {post.tags.map((tag) => (
+          <Chip key={tag} color='primary' label={`${tag}`} variant="outlined" style={{height:45, width:100, margin: '2px' }} />
+        ))}
+      </div>
               <Typography gutterBottom variant="body1" component="p">{post.message}</Typography>
               <Typography variant="h6">Created by: {post.name}</Typography>
               <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>

@@ -4,32 +4,23 @@ import { deepPurple } from '@mui/material/colors';
 export default makeStyles((theme) => ({
   appBar: {
     borderRadius: 15,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     marginTop: "10px",
-    alignItems: 'center',
     padding: '10px 10px 10px 10px',
   },
-  heading: {
-    color: 'rgba(0,183,255, 1)',
+  brandLink: {
     textDecoration: 'none',
-    fontFamily: 'Edu VIC WA NT Beginner, cursive'
-  },
-  image: {
-    marginLeft: '5px',
+    color: 'inherit',
   },
   toolbar: {
     display: 'flex',
-    justifyContent: 'flex-end',
-    width: '400px',
+    justifyContent: 'space-between',
+    width: '100%',
   },
   profile: {
     display: 'flex',
-    justifyContent: 'space-between',
-    width: '400px',
+    alignItems: 'center',
     [theme.breakpoints.down('sm')]: {
-      width: '300px',
+      width: 'auto',
     },
     [theme.breakpoints.down('522')]: {
       display: "inline-grid",
@@ -37,10 +28,6 @@ export default makeStyles((theme) => ({
     }
   },
   userName: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  brandContainer: {
     display: 'flex',
     alignItems: 'center',
   },
@@ -55,7 +42,11 @@ export default makeStyles((theme) => ({
     [theme.breakpoints.down('522')]: {
       padding: "5px 10px",
       fontSize: "12px",
-
     }
-  }
+  },
+  button: {
+    display: 'flex',
+    justifyContent: 'end',
+    width: '10%',
+  },
 }));

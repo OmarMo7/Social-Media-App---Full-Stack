@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@mui/material';
 import Input from './Input';
-import GoogleButton from '../Auth/GoogleButton';
+import GoogleButton from './GoogleButton';
 import Error from '../Error/Error';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import useStyles from './styles';

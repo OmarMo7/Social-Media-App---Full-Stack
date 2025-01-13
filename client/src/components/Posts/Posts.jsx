@@ -1,12 +1,20 @@
 import React from 'react';
-import { CircularProgress, Box } from '@mui/material';
+import { CircularProgress, Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import Post from './Post/Post';
 import useStyles from './styles';
 
-const Posts = ({ setCurrentId }) => {
+const Posts = ({ setCurrentId, noResults }) => {
   const { posts, isLoading } = useSelector((state) => state.posts);
   const classes = useStyles();
+
+  if (noResults) {
+    return (
+      <Typography variant="h6" align="center">
+        Nothing matches your entry
+      </Typography>
+    );
+  }
 
   if (!posts?.length && !isLoading) {
     return 'You have no posts yet';
